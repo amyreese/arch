@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -10,6 +10,7 @@ url="http://github.com/jreese/arch"
 license=('MIT')
 groups=()
 depends=(
+  ack
   corkscrew
   ctags
   curl
@@ -33,6 +34,8 @@ depends=(
   python-markdown
   screen
   subversion
+  tmux
+  tree
   unrar
   unzip
   vim
@@ -42,18 +45,16 @@ depends=(
   )
 optdepends=(
   'base-devel: core compiler toolchain'
-  'zfs-fuse: filesystem'
   )
 install=
 changelog=
 
 build() {
-  cd $srcdir/
-  cp $startdir/PKGBUILD $srcdir/
+  true
 }
 
 check() {
-  echo "check"
+  true
 }
 
 # vim:set ts=2 sw=2 et:
