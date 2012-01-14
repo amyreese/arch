@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=4
+pkgrel=5
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
