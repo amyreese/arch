@@ -2,30 +2,85 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=3
+pkgrel=4
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
 url="http://github.com/jreese/arch"
 license=('MIT')
-groups=(
-  gnome
-  gnome-extra
-  gnome-shell-extensions
-  pulseaudio-gnome
-  )
 depends=(
   jreese-core
+
+  # base packages
   dbus
   dbus-python
-  gnome-tweak-tool
   xorg-server
+
+  # gnome group
+  gnome-applets
+  gnome-backgrounds
+  gnome-control-center
+  gnome-desktop
+  gnome-icon-theme
+  gnome-icon-theme-extras
+  gnome-icon-theme-symbolic
+  gnome-keyring
+  gnome-panel
+  gnome-screensaver
+  gnome-session
+  gnome-settings-daemon
+  gnome-shell
+  gnome-terminal
+  gnome-themes-standard
+  gnome-user-docs
+  metacity
+  mutter
+  nautilus
+  notification-daemon
+  yelp
+
+  # gnome-extra group
+  eog
+  eog-plugins
+  evince
+  file-roller
+  gcalctool
+  gconf-editor
+  gdm
+  gedit
+  gnome-color-manager
+  gnome-disk-utility
+  gnome-nettool
+  gnome-power-manager
+  gnome-system-monitor
+  gnome-utils
+  mousetweaks
+  seahorse
+
+  # gnome-shell-extensions group
+  gnome-shell-extension-alternative-status-menu
+  gnome-shell-extension-places-menu
+
+  # gnome apps
+  brasero
+  gnome-tweak-tool
+  gparted
+  transmission-gtk
+  xchat
+
+  # preferred apps
+  chromium
+  flashplugin
+  thunderbird
+  vlc
   )
+
 conflicts=(
   ekiga
   epiphany
   evolution
   )
+
 optdepends=(
   'nouveau-dri: open source Nvidia driver'
   'nvidia: binary Nvidia driver'
