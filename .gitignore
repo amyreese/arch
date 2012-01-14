@@ -1,0 +1,7 @@
+# build artifacts
+pkg/
+src/
+*tar.xz
+
+# pub artifacts
+repo/
