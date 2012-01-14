@@ -1,0 +1,46 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-gnome
+pkgver=1.0
+pkgrel=3
+epoch=0
+pkgdesc="Dependencies for a basic Gnome desktop environment"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+groups=(
+  gnome
+  gnome-extra
+  gnome-shell-extensions
+  pulseaudio-gnome
+  )
+depends=(
+  jreese-core
+  dbus
+  dbus-python
+  gnome-tweak-tool
+  xorg-server
+  )
+conflicts=(
+  ekiga
+  epiphany
+  evolution
+  )
+optdepends=(
+  'nouveau-dri: open source Nvidia driver'
+  'nvidia: binary Nvidia driver'
+  'xf86-video-nouveau: open source Nvidia driver'
+  'xf86-input-multitouch-git: Macbook touchpad driver'
+  )
+install=
+changelog=
+
+build() {
+  true
+}
+
+check() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
