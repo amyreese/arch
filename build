@@ -1,0 +1,78 @@
+#!/bin/bash
+
+localrepo="repo/"
+remoterepo="dyson:/home/jreese/pub/arch/"
+database="noswap.db.tar.xz"
+
+cpuarch=`uname -m`
+
+if [ -z "$1" ]
+then
+	echo 'Usage: build <package> [... <package>]'
+	exit 1
+fi
+
+echo "Syncing local repository from remote repository..."
+rsync -avz --delete $remoterepo $localrepo
+
+until [ -z "$1" ]
+do
+	package=$1
+	if [ -d "$package" ]
+	then
+		echo "Entering $package/"
+		pushd $package
+
+		echo "Checking package type"
+		grep arch PKGBUILD | grep -q any
+		if [ $? -eq 0 ]
+		then
+			arch="any"
+		else
+			arch=$cpuarch
+		fi
+		echo "Package type: $arch"
+
+		echo "Cleaning directory"
+		rm -f ${package}-*-${arch}.pkg.tar.xz
+		rm -fr pkg/ src/
+
+		echo "Building package"
+		echo "$ makepkg -s"
+		makepkg -s
+
+		if [ $? -ne 0 ]
+		then
+			echo "Error building package"
+			exit $?
+		fi
+
+		echo "Leaving $package/"
+		popd
+
+		echo "Removing old package from repository"
+		rm -f ${localrepo}/${package}-*-${arch}.pkg.tar.xz
+
+		echo "Copying new package to repository"
+		cp ${package}/${package}-*-${arch}.pkg.tar.xz $localrepo/
+
+		echo "Entering repository"
+		pushd $localrepo
+
+		echo "Updating database with new package"
+		repo-add $database -f ${package}-*-${arch}.pkg.tar.xz
+
+		echo "Leaving repository"
+		popd
+
+		echo "Build complete"
+	fi
+
+	shift
+done
+
+echo "All package builds completed"
+echo "Syncing local repository to remote repository..."
+rsync -avz --delete $localrepo $remoterepo
+
+echo "Build complete"
