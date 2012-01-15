@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=6
+pkgrel=7
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -65,8 +65,6 @@ depends=(
   brasero
   gnome-tweak-tool
   gparted
-  networkmanager
-  network-manager-applet
   transmission-gtk
   xchat
 
