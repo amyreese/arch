@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=9
+pkgrel=10
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -12,8 +12,10 @@ depends=(
   jreese-core
 
   # base packages
+  cups
   dbus
   dbus-python
+  samba
   xorg-server
 
   # gnome group
@@ -81,6 +83,7 @@ optdepends=(
   'nvidia: binary Nvidia driver'
   'xf86-video-nouveau: open source Nvidia driver'
   'xf86-input-multitouch-git: Macbook touchpad driver'
+  'zfs-fuse: ZFS driver'
   )
 install=
 changelog=
