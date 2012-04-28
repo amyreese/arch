@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=9
+pkgrel=10
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -10,6 +10,7 @@ url="http://github.com/jreese/arch"
 license=('MIT')
 depends=(
   ack
+  alsa-utils
   ca-certificates
   corkscrew
   ctags
