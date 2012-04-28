@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=10
+pkgrel=11
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -70,6 +70,13 @@ depends=(
   chromium
   thunderbird
   vlc
+
+  # other packages
+  synergy
+  ttf-bitstream-vera
+  ttf-droid
+  ttf-inconsolata
+  ttf-ubuntu-font-family
   )
 
 conflicts=(
