@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=11
+pkgrel=12
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -17,6 +17,9 @@ depends=(
   dbus-python
   samba
   xorg-server
+  xorg-xev
+  xorg-xmodmap
+  xorg-xrandr
 
   # gnome group
   gnome-applets
