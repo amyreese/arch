@@ -1,0 +1,28 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-doc
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="A set of packages needed to build various documentation."
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+depends=(
+  catdvi
+  texlive-core
+  )
+optdepends=(
+  )
+install=
+changelog=
+
+build() {
+  true
+}
+
+check() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
