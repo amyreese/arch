@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=11
+pkgrel=12
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -29,6 +29,7 @@ depends=(
   lsof
   mercurial
   mlocate
+  mosh
   net-tools
   nmap
   ntp
@@ -48,6 +49,7 @@ depends=(
   vim
   wget
   yaourt
+  zip
   zsh
   )
 optdepends=(
