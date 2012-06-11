@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=12
+pkgrel=13
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -75,8 +75,10 @@ depends=(
   vlc
 
   # other packages
+  monaco-linux-font
   synergy
   ttf-bitstream-vera
+  ttf-dejavu
   ttf-droid
   ttf-inconsolata
   ttf-ubuntu-font-family
