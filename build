@@ -1,7 +1,7 @@
 #!/bin/bash
 
 localrepo="repo/"
-remoterepo="dyson:/home/jreese/pub/arch/"
+remoterepo="liara:/home/jreese/pub/arch/"
 database="noswap.db.tar.xz"
 
 cpuarch=`uname -m`
