@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=13
+pkgrel=14
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -66,15 +66,19 @@ depends=(
   brasero
   gnome-tweak-tool
   gparted
+  gvfs-smb
   transmission-gtk
   xchat
 
   # preferred apps
   chromium
+  firefox
+  gimp
   thunderbird
   vlc
 
   # other packages
+  flashplugin
   monaco-linux-font
   synergy
   ttf-bitstream-vera
