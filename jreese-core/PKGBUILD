@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=12
+pkgrel=13
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -12,6 +12,7 @@ depends=(
   ack
   alsa-utils
   ca-certificates
+  cmake
   corkscrew
   ctags
   curl
@@ -36,12 +37,16 @@ depends=(
   openssh
   p7zip
   python2
+  python2-markdown
+  python2-pip
   python
   python-markdown
+  python-pip
   rsync
   screen
   subversion
   sudo
+  tarsnap
   tmux
   tree
   unrar
