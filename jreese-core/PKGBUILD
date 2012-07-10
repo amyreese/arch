@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=13
+pkgrel=14
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -44,6 +44,7 @@ depends=(
   python-pip
   rsync
   screen
+  start-stop-daemon
   subversion
   sudo
   tarsnap
