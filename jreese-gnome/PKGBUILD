@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=14
+pkgrel=15
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -97,9 +97,12 @@ conflicts=(
 optdepends=(
   'nouveau-dri: open source Nvidia driver'
   'nvidia: binary Nvidia driver'
+  'xf86-video-intel: Intel driver'
   'xf86-video-nouveau: open source Nvidia driver'
   'xf86-input-multitouch-git: Macbook touchpad driver'
   'zfs-fuse: ZFS driver'
+  'mediterranean-night: dark GTK2/GTK3 theme'
+  'delorean-dark: dark GTK2/GTK3/Shell theme'
   )
 install=
 changelog=
