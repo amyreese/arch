@@ -1,0 +1,30 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-office
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="LibreOffice packages for gnome"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+depends=(
+  libreoffice-en-US
+  libreoffice-gnome
+  libreoffice-calc
+  libreoffice-writer
+  )
+optdepends=(
+  )
+install=
+changelog=
+
+build() {
+  true
+}
+
+check() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
