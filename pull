@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Downloading latest PKGBUILDs from AUR"
+for pkg in `ls */PKGBUILD | sed 's@/.*$@@'`; do
+	echo $pkg
+	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
+done
+
+echo "Done"
