@@ -1,0 +1,34 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=autopacman
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="Run pacman updates daily via cron and mail to me"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+depends=(
+  postfix
+  )
+optdepends=(
+  )
+install=
+changelog=
+source=(
+  'autopacman'
+  )
+md5sums=(
+  'b162798a198e3d2e381984f98f18a5dc'
+  )
+
+build() {
+  install -D -m755 "${srcdir}/autopacman" "${pkgdir}/etc/cron.daily/autopacman"
+}
+
+check() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
+

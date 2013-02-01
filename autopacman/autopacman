@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pacman -Syu --noconfirm | mailx -s "Package Updates ($HOST)" root
