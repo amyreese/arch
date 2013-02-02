@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=15
+pkgrel=16
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -79,7 +79,6 @@ depends=(
 
   # other packages
   flashplugin
-  monaco-linux-font
   synergy
   ttf-bitstream-vera
   ttf-dejavu
