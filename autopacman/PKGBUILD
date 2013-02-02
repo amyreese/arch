@@ -1,7 +1,7 @@
 
 # Maintainer: John Reese <john@noswap.com>
 pkgname=autopacman
-pkgver=1.0
+pkgver=1.1
 pkgrel=1
 epoch=0
 pkgdesc="Run pacman updates daily via cron and mail to me"
@@ -19,7 +19,7 @@ source=(
   'autopacman'
   )
 md5sums=(
-  'b162798a198e3d2e381984f98f18a5dc'
+  '8aeea34000ebf6db2b28fd4fd479ddd1'
   )
 
 build() {
