@@ -1,5 +1,13 @@
 #!/bin/bash
 
+pkg=$1
+if [ -n $pkg ]; then
+	echo "Importing $pkg PKGBUILD from AUR"
+	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
+	echo "Done"
+	exit 0
+fi
+
 echo "Downloading latest PKGBUILDs from AUR"
 for pkg in `ls */PKGBUILD | sed 's@/.*$@@'`; do
 	echo $pkg
