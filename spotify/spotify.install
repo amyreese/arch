@@ -1,0 +1,13 @@
+post_install() {
+    cd /opt/spotify/spotify-client
+    ./register.sh
+}
+
+post_upgrade() {
+	post_install
+}
+
+pre_remove() {
+    cd /opt/spotify/spotify-client
+    ./unregister.sh
+}
