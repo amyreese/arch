@@ -1,3 +1,6 @@
 #!/bin/bash
 
-pacman -Syu --noconfirm | mailx -s "Package Updates (`hostname`)" root
+tmp=`mktemp`
+pacman -Syu --noconfirm > $tmp 2>&1
+mailx -s "Package Updates (`hostname`)" root < $tmp
+rm -f $tmp
