@@ -6,7 +6,7 @@ if [[ $# > 0 ]]; then
 	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
 else
 	echo "Updating PKGBUILDs from AUR:"
-	for pkg in `ls */PKGBUILD | sed 's@/.*$@@'`; do
+	for pkg in `ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'`; do
 		echo $pkg
 		curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
 	done
