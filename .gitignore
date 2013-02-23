@@ -3,6 +3,9 @@ pkg/
 src/
 *tar.xz
 *tar.gz
+*.tgz
+*.tbz2
+*.zip
 *.sig
 
 # pub artifacts
