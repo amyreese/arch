@@ -1,0 +1,30 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-android
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="Packages needed to build Android projects"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+depends=(
+  android-sdk
+  android-sdk-platform-tools
+  apache-ant
+  )
+optdepends=(
+  eclipse-indigo
+  )
+install=
+changelog=
+
+build() {
+  true
+}
+
+check() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
