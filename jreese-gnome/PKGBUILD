@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=17
+pkgrel=18
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -75,6 +75,7 @@ depends=(
   firefox
   gimp
   spotify
+  spotify-gnome-git
   sublime-text
   thunderbird
   vlc
