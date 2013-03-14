@@ -3,7 +3,7 @@
 # Contributor: Thanks to Blind (nick from aur) for zfs-fuse rc.d daemon
 
 pkgname=zfs-fuse-git
-pkgver=20130311
+pkgver=20120221
 pkgrel=1
 pkgdesc="A port of the ZFS filesytem to the FUSE framework."
 arch=("i686" "x86_64")
