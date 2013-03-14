@@ -1,0 +1,46 @@
+# Contributor: Praekon <praekon@googlemail.com>
+# Contributor: Arthur <arthur.darcet@m4x.org>
+# Contributor: Jon Wiersma <archaur@jonw.org>
+# Contributor: monty <linksoft [at] gmx [dot] de>
+
+pkgname=plexmediaserver
+pkgver=0.9.7.17.469
+pkgrel=1
+subver=1f0b170
+pkgdesc="Plex Media Server for Linux"
+url='http://www.plexapp.com'
+arch=('i686' 'x86_64')
+license=('closed')
+depends=('avahi' 'rsync' 'systemd')
+replace=('plex')
+backup=('etc/conf.d/plexmediaserver')
+install='plexmediaserver.install'
+
+if [ "$CARCH" = "i686" ]; then
+       _arch='i386'
+       md5sums=('5ed0e27d8826624fc937a0f385b1edc9')
+elif [ "$CARCH" = "x86_64" ]; then
+       _arch='amd64'
+       md5sums=('b61dbbb9adbe0d609945f618d991c83e')
+fi
+
+source=("http://plex.r.worldssl.net/PlexMediaServer/${pkgver}-${subver}/${pkgname}_${pkgver}-${subver}_${_arch}.deb" "${pkgname}.conf.d" "${pkgname}.service" "start.sh")
+md5sums+=('bd7a113f065e7a4fcfef029a4724110a'
+          '6ef572a8edb874cc6e047d9fc36d367f'
+          'c8806bca1f9701847709e865280417f1')
+
+build() {
+       ar -xv plexmediaserver_${pkgver}-${subver}_${_arch}.deb || return 1
+       tar -zxf data.tar.gz || return 1
+}
+
+package() {
+       mkdir -p "${pkgdir}"/usr/lib/plexmediaserver
+       mkdir -p "${pkgdir}"/usr/lib/systemd/system
+
+       cp -r usr/lib/plexmediaserver/* "${pkgdir}"/usr/lib/plexmediaserver/
+
+       install -Dm755 ../start.sh "${pkgdir}"/usr/lib/plexmediaserver/
+       install -Dm644 ../plexmediaserver.conf.d "${pkgdir}"/etc/conf.d/plexmediaserver
+       install -Dm644 ../plexmediaserver.service "${pkgdir}"/usr/lib/systemd/system/plexmediaserver.service
+}

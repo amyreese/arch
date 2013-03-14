@@ -1,0 +1,32 @@
+post_install() {
+  systemctl --system daemon-reload
+  cat << "EOM"
+  ####
+  #  Installation done
+  #  - change execution user in:
+  #    /etc/conf.d/plexmediaserver
+  #  - Launch the server with:
+  #    systemctl start plexmediaserver
+  ####
+EOM
+
+}
+
+pre_install() {
+  if [ -f /usr/lib/systemd/system/plexmediaserver.service ]; then
+    echo "Stopping Plexmediaserver before starting upgrade"
+    systemctl stop plexmediaserver
+  fi;
+}
+
+pre_upgrade() {
+  pre_install;
+}
+
+pre_remove() {
+  pre_install;
+}
+
+post_upgrade() {
+  systemctl --system daemon-reload
+}
