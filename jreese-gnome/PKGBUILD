@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=18
+pkgrel=19
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -72,6 +72,7 @@ depends=(
 
   # preferred apps
   chromium
+  dropbox
   firefox
   gimp
   spotify
@@ -83,12 +84,14 @@ depends=(
   # other packages
   ffmpeg-spotify
   flashplugin
+  nautilus-dropbox
   synergy
   ttf-bitstream-vera
   ttf-dejavu
   ttf-droid
   ttf-inconsolata
   ttf-monaco
+  ttf-roboto
   ttf-ubuntu-font-family
   )
 
