@@ -9,6 +9,7 @@ src/
 *.zip
 *.sig
 *.deb
+*.jar
 
 # pub artifacts
 repo/
