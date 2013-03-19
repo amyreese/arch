@@ -14,8 +14,9 @@ else
 	echo "Updating PKGBUILDs from AUR:"
 	for pkg in `ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'`; do
 		echo $pkg
-		curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
+		curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null &
 	done
+	wait
 fi
 
 echo "Done"
