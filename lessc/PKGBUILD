@@ -1,0 +1,28 @@
+# Maintainer: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+
+pkgname=lessc
+pkgver=1.3.3
+pkgrel=1
+_commit=a9775a34dad65482535e670a0c3dae925b824431
+pkgdesc="A standalone compiler for the LESS CSS language."
+arch=('any')
+url="http://lesscss.org/"
+license=('Apache')
+depends=('nodejs')
+source=($pkgname-$pkgver.tar.gz::https://github.com/cloudhead/less.js/archive/$_commit.tar.gz)
+
+build() {
+	cd "$srcdir/less.js-$_commit"
+	make less
+}
+
+package() {
+	cd "$srcdir/less.js-$_commit"
+	install -d "$pkgdir/usr/lib/node"
+	install -d "$pkgdir/usr/bin"
+	cp -r lib/less "$pkgdir/usr/lib/node/less"
+	ln -s "node/less" "$pkgdir/usr/lib/less"
+	install -Dm755 "bin/lessc" "$pkgdir/usr/bin/lessc"
+}
+
+sha256sums=('b4b67f2b2548209f23cae5c116a11131518e89983d54113aa47dd9ca8824db3e')
