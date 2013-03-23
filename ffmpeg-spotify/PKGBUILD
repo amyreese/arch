@@ -1,7 +1,7 @@
 # Maintainer: Gadget3000 <gadget3000 at msn com>
 pkgname=ffmpeg-spotify
 pkgver=0.5.7
-pkgrel=1
+pkgrel=1a
 pkgdesc="Legacy FFMPEG (0.5.7) for Spotify for Linux."
 arch=('arm' 'armv7h' 'i686' 'x86_64')
 url="http://ffmpeg.org/"
