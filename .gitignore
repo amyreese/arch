@@ -1,6 +1,7 @@
 # build artifacts
 pkg/
 src/
+*.tar
 *tar.xz
 *tar.gz
 *tar.bz2
@@ -10,6 +11,7 @@ src/
 *.sig
 *.deb
 *.jar
+gti/*
 
 # pub artifacts
 repo/
