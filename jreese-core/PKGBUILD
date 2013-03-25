@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=22
+pkgrel=23
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -25,6 +25,7 @@ depends=(
   git
   gnu-netcat
   htop
+  hub-git
   inetutils
   iotop
   irssi
