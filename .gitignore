@@ -12,6 +12,7 @@ src/
 *.deb
 *.jar
 gti/*
+spring*/*.sd7
 
 # pub artifacts
 repo/
