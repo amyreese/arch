@@ -1,22 +1,62 @@
 #!/bin/bash
 
+updatepkgbuild() {
+	pkg=$1
+	echo $pkg
+
+	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
+
+	pkgbuild=$pkg/PKGBUILD
+
+	if $(git status -s | grep -q " $pkgbuild"); then
+		# modified pkgbuild
+
+		if $(git diff $pkgbuild | grep -q "^-epoch="); then
+			# newer epoch, flip tables
+			echo "$pkg: new epoch, /fliptables"
+
+		elif $(git diff $pkgbuild | grep -q "^-pkgver="); then
+			# newer pkgver, announce it
+			oldver=$(git diff $pkgbuild | grep "^-pkgver=" | cut -d= -f2)
+			newver=$(git diff $pkgbuild | grep "^+pkgver=" | cut -d= -f2)
+			echo "$pkg: $oldver => $newver"
+
+		elif $(git diff $pkgbuild | grep -q "^-pkgrel="); then
+			# modified pkgrel
+			pkgver=$(git diff $pkgbuild | grep "^ pkgver=" | cut -d= -f2)
+			oldrel=$(git diff $pkgbuild | grep "^-pkgrel=" | cut -d= -f2)
+			newrel=$(git diff $pkgbuild | grep "^+pkgrel=" | cut -d= -f2)
+
+			if [[ "$oldrel" > "$newrel" ]]; then
+				# older pkgrel, revert it
+				git checkout -f $pkgbuild >/dev/null 2>&1
+			else
+				# newer pkgrel, announce it
+				echo "$pkg: $pkgver-$oldrel => $pkgver-$newrel"
+			fi
+
+		fi
+	fi
+}
+
 if [[ $# > 0 ]]; then
+	echo "Importing PKGBUILDs from AUR..."
+
 	until [ -z "$1" ]
 	do
-		pkg=$1
-		echo "Importing PKGBUILD for $pkg from AUR..."
-		curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
-
+		updatepkgbuild $1 &
 		shift
 	done
 
 else
 	echo "Updating PKGBUILDs from AUR:"
-	for pkg in `ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'`; do
-		echo $pkg
-		curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null &
+
+	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
+		updatepkgbuild $pkg &
 	done
-	wait
+
 fi
 
+echo
+wait
 echo "Done"
