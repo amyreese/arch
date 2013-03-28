@@ -3,7 +3,7 @@
 
 pkgname=hub-git
 _pkgname=hub
-pkgver=20130105
+pkgver=20130328
 pkgrel=1
 pkgdesc="hub introduces git to GitHub"
 arch=('any')
