@@ -13,6 +13,7 @@ src/
 *.jar
 gti/*
 spring*/*.sd7
+linux-ck/*patch*
 
 # pub artifacts
 repo/
