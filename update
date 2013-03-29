@@ -2,11 +2,9 @@
 
 updatepkgbuild() {
 	pkg=$1
-	echo $pkg
+	pkgbuild=$pkg/PKGBUILD
 
 	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
-
-	pkgbuild=$pkg/PKGBUILD
 
 	if $(git status -s | grep -q " $pkgbuild"); then
 		# modified pkgbuild
@@ -16,10 +14,17 @@ updatepkgbuild() {
 			echo "$pkg: new epoch, /fliptables"
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgver="); then
-			# newer pkgver, announce it
+			# modified pkgver
 			oldver=$(git diff $pkgbuild | grep "^-pkgver=" | cut -d= -f2)
 			newver=$(git diff $pkgbuild | grep "^+pkgver=" | cut -d= -f2)
-			echo "$pkg: $oldver => $newver"
+
+			if [[ "$oldver" > "$newver" ]]; then
+				# older pkgver, revert it
+				git checkout -f $pkgbuild >/dev/null 2>&1
+			else
+				# newer pkgver, announce it
+				echo "$pkg: $oldver => $newver"
+			fi
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgrel="); then
 			# modified pkgrel
@@ -49,7 +54,7 @@ if [[ $# > 0 ]]; then
 	done
 
 else
-	echo "Updating PKGBUILDs from AUR:"
+	echo "Updating PKGBUILDs from AUR..."
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
 		updatepkgbuild $pkg &
@@ -57,6 +62,5 @@ else
 
 fi
 
-echo
 wait
 echo "Done"
