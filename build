@@ -10,6 +10,10 @@ if [ -z "$1" ]
 then
 	echo 'Usage: build <package> [... <package>]'
 	exit 1
+elif [[ $# > 1 ]]
+then
+	echo "$# packages to build -- preemtively asking for sudo permissions"
+	sudo true
 fi
 
 echo "Syncing local repository from remote repository..."
@@ -18,6 +22,8 @@ rsync -avz --delete $remoterepo $localrepo
 until [ -z "$1" ]
 do
 	package=$1
+	shift
+
 	if [ -d "$package" ]
 	then
 		echo "Entering $package/"
@@ -39,7 +45,7 @@ do
 
 		echo "Building package"
 		echo "$ makepkg -s"
-		makepkg -s
+		makepkg -s --noconfirm
 
 		if [ $? -ne 0 ]
 		then
@@ -66,13 +72,16 @@ do
 		popd
 
 		echo "Build complete"
+
+		echo "Syncing local repository to remote repository..."
+		rsync -avz --delete $localrepo $remoterepo
 	fi
 
-	shift
+	if [ -n "$1" ]
+	then
+		echo "Updating pacman..."
+		sudo pacman -Sy
+	fi
 done
 
 echo "All package builds completed"
-echo "Syncing local repository to remote repository..."
-rsync -avz --delete $localrepo $remoterepo
-
-echo "Build complete"
