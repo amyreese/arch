@@ -49,7 +49,7 @@ if [[ $# > 0 ]]; then
 
 	until [ -z "$1" ]
 	do
-		updatepkgbuild $1 &
+		updatepkgbuild $1
 		shift
 	done
 
@@ -57,7 +57,7 @@ else
 	echo "Updating PKGBUILDs from AUR..."
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
-		updatepkgbuild $pkg &
+		updatepkgbuild $pkg
 	done
 
 fi
