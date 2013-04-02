@@ -57,8 +57,10 @@ else
 	echo "Updating PKGBUILDs from AUR..."
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
+		echo -n "."
 		updatepkgbuild $pkg
 	done
+	echo
 
 fi
 
