@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=23
+pkgrel=24
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -43,7 +43,6 @@ depends=(
   openssh
   p7zip
   pacaur
-  pacman-color
   pkgstats
   postfix
   python2
@@ -71,6 +70,9 @@ depends=(
   zsh
   )
 optdepends=(
+  )
+conflicts=(
+  pacman-color
   )
 install=
 changelog=
