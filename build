@@ -19,6 +19,8 @@ fi
 echo "Syncing local repository from remote repository..."
 rsync -avz --delete $remoterepo $localrepo
 
+cp noswap-repo.sh $localrepo/
+
 until [ -z "$1" ]
 do
 	package=$1
@@ -45,7 +47,7 @@ do
 
 		echo "Building package"
 		echo "$ makepkg -s"
-		makepkg -s --noconfirm
+		makepkg -s --noconfirm --sign
 
 		if [ $? -ne 0 ]
 		then
@@ -60,13 +62,13 @@ do
 		rm -f ${localrepo}/${package}-*-${arch}.pkg.tar.xz
 
 		echo "Copying new package to repository"
-		cp ${package}/${package}-*-${arch}.pkg.tar.xz $localrepo/
+		cp ${package}/${package}-*-${arch}.pkg.tar.xz* $localrepo/
 
 		echo "Entering repository"
 		pushd $localrepo
 
 		echo "Updating database with new package"
-		repo-add $database -f ${package}-*-${arch}.pkg.tar.xz
+		repo-add --sign --verify $database -f ${package}-*-${arch}.pkg.tar.xz
 
 		echo "Leaving repository"
 		popd
