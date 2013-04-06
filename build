@@ -49,17 +49,18 @@ do
 		echo "$ makepkg -s"
 		makepkg -s --noconfirm --sign
 
-		if [ $? -ne 0 ]
+		error=$?
+		if [ $error -ne 0 ]
 		then
 			echo "Error building package"
-			exit $?
+			exit $error
 		fi
 
 		echo "Leaving $package/"
 		popd
 
 		echo "Removing old package from repository"
-		rm -f ${localrepo}/${package}-*-${arch}.pkg.tar.xz
+		rm -f ${localrepo}/${package}-[0-9]*-${arch}.pkg.tar.xz
 
 		echo "Copying new package to repository"
 		cp ${package}/${package}-*-${arch}.pkg.tar.xz* $localrepo/
