@@ -42,7 +42,7 @@ do
 		echo "Package type: $arch"
 
 		echo "Cleaning directory"
-		rm -f ${package}-*-${arch}.pkg.tar.xz
+		rm -f ${package}-*-${arch}.pkg.tar.xz*
 		rm -fr pkg/ src/
 
 		echo "Building package"
@@ -60,7 +60,7 @@ do
 		popd
 
 		echo "Removing old package from repository"
-		rm -f ${localrepo}/${package}-[0-9]*-${arch}.pkg.tar.xz
+		rm -f ${localrepo}/${package}-[0-9]*-${arch}.pkg.tar.xz*
 
 		echo "Copying new package to repository"
 		cp ${package}/${package}-*-${arch}.pkg.tar.xz* $localrepo/
