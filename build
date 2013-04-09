@@ -10,16 +10,30 @@ if [ -z "$1" ]
 then
 	echo 'Usage: build <package> [... <package>]'
 	exit 1
-elif [[ $# > 1 ]]
-then
-	echo "$# packages to build -- preemtively asking for sudo permissions"
-	sudo true
 fi
+
+sudo true
 
 echo "Syncing local repository from remote repository..."
 rsync -avz --delete $remoterepo $localrepo
 
 cp noswap-repo.sh $localrepo/
+
+archroot=`mktemp --tmpdir --directory archroot.XXXXXX`
+echo "Creating archroot in $archroot..."
+
+sudo mkarchroot -f $archroot base base-devel
+sudo mkdir -p $archroot/packages/
+sudo cp noswap-repo.sh $archroot/packages/
+sudo arch-chroot $archroot sh /packages/noswap-repo.sh
+
+cleanup() {
+	if [ -n "$archroot" ]
+	then
+		echo "Cleaning up archroot ($archroot) ..."
+		sudo rm -rf $archroot*
+	fi
+}
 
 until [ -z "$1" ]
 do
@@ -28,11 +42,11 @@ do
 
 	if [ -d "$package" ]
 	then
-		echo "Entering $package/"
-		pushd $package
+		echo
+		echo "Starting $package..."
 
 		echo "Checking package type"
-		grep arch PKGBUILD | grep -q any
+		grep arch $package/PKGBUILD | grep -q any
 		if [ $? -eq 0 ]
 		then
 			arch="any"
@@ -41,32 +55,34 @@ do
 		fi
 		echo "Package type: $arch"
 
-		echo "Cleaning directory"
-		rm -f ${package}-*-${arch}.pkg.tar.xz*
-		rm -fr pkg/ src/
+		echo "Copying sources to chroot..."
+		sudo cp -r $package $archroot/packages/$package
 
 		echo "Building package"
-		echo "$ makepkg -s"
-		makepkg -s --noconfirm --sign
+		cmd="cd /packages/${package} && pwd && makepkg --asroot -s --noconfirm"
+		echo "chroot# ${cmd}"
+		echo $cmd | sudo tee $archroot/packages/run.sh
+		sudo arch-chroot $archroot sh /packages/run.sh
 
 		error=$?
 		if [ $error -ne 0 ]
 		then
 			echo "Error building package"
+			cleanup
 			exit $error
 		fi
-
-		echo "Leaving $package/"
-		popd
 
 		echo "Removing old package from repository"
 		rm -f ${localrepo}/${package}-[0-9]*-${arch}.pkg.tar.xz*
 
 		echo "Copying new package to repository"
-		cp ${package}/${package}-*-${arch}.pkg.tar.xz* $localrepo/
+		cp ${archroot}/packages/${package}/${package}-*-${arch}.pkg.tar.xz $localrepo/
 
 		echo "Entering repository"
 		pushd $localrepo
+
+		echo "Signing new package"
+		gpg --detach-sign ${package}-[0-9]*-${arch}.pkg.tar.xz
 
 		echo "Updating database with new package"
 		repo-add --sign --verify $database -f ${package}-*-${arch}.pkg.tar.xz
@@ -83,8 +99,10 @@ do
 	if [ -n "$1" ]
 	then
 		echo "Updating pacman..."
-		sudo pacman -Sy
+		sudo arch-chroot pacman -Sy
 	fi
 done
+
+cleanup
 
 echo "All package builds completed"
