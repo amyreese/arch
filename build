@@ -99,7 +99,7 @@ do
 	if [ -n "$1" ]
 	then
 		echo "Updating pacman..."
-		sudo arch-chroot pacman -Sy
+		sudo arch-chroot $archroot pacman -Sy
 	fi
 done
 
