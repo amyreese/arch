@@ -19,10 +19,10 @@ rsync -avz --delete $remoterepo $localrepo
 
 cp noswap-repo.sh $localrepo/
 
-archroot=`mktemp --tmpdir --directory archroot.XXXXXX`
+archroot=`mktemp --dry-run --tmpdir --directory archroot.XXXXXX`
 echo "Creating archroot in $archroot..."
 
-sudo mkarchroot -f $archroot base base-devel
+sudo mkarchroot $archroot base base-devel
 sudo mkdir -p $archroot/packages/
 sudo cp noswap-repo.sh $archroot/packages/
 sudo arch-chroot $archroot sh /packages/noswap-repo.sh
