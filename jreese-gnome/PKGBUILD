@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=20
+pkgrel=21
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -82,6 +82,8 @@ depends=(
   vlc
 
   # other packages
+  faenza-icon-theme
+  faience-icon-theme
   ffmpeg-spotify
   flashplugin
   nautilus-dropbox
