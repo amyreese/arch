@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=19
+pkgrel=20
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -49,10 +49,10 @@ depends=(
   eog-plugins
   evince
   file-roller
-  gcalctool
   gconf-editor
   gdm
   gedit
+  gnome-calculator
   gnome-color-manager
   gnome-disk-utility
   gnome-nettool
