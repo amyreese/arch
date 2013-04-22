@@ -1,5 +1,7 @@
 #!/bin/bash
 
+statusfile=`mktemp status.XXX`
+
 updatepkgbuild() {
 	pkg=$1
 	pkgbuild=$pkg/PKGBUILD
@@ -11,7 +13,7 @@ updatepkgbuild() {
 
 		if $(git diff $pkgbuild | grep -q "^-epoch="); then
 			# newer epoch, flip tables
-			echo "$pkg: new epoch, /fliptables"
+			echo "$pkg : new epoch, /fliptables" >> $statusfile
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgver="); then
 			# modified pkgver
@@ -23,7 +25,7 @@ updatepkgbuild() {
 				git checkout -f $pkgbuild >/dev/null 2>&1
 			else
 				# newer pkgver, announce it
-				echo "$pkg: $oldver => $newver"
+				echo "$pkg : $oldver => $newver" >> $statusfile
 			fi
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgrel="); then
@@ -37,7 +39,7 @@ updatepkgbuild() {
 				git checkout -f $pkgbuild >/dev/null 2>&1
 			else
 				# newer pkgrel, announce it
-				echo "$pkg: $pkgver-$oldrel => $pkgver-$newrel"
+				echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel" >> $statusfile
 			fi
 
 		fi
@@ -65,4 +67,8 @@ else
 fi
 
 wait
+
+cat $statusfile
+rm $statusfile
+echo
 echo "Done"
