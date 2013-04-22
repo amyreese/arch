@@ -56,11 +56,20 @@ if [[ $# > 0 ]]; then
 	done
 
 else
-	echo "Updating PKGBUILDs from AUR..."
+	echo -n "Updating PKGBUILDs from AUR..."
+
+	counter=0
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
 		echo -n "."
-		updatepkgbuild $pkg
+		updatepkgbuild $pkg &
+
+		counter=$((counter + 1))
+		if [[ $counter == 3 ]]
+		then
+			counter=0
+			wait
+		fi
 	done
 	echo
 
