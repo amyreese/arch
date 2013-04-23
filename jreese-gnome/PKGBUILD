@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=21
+pkgrel=22
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -35,6 +35,7 @@ depends=(
   gnome-session
   gnome-settings-daemon
   gnome-shell
+  gnome-shell-extensions
   gnome-terminal
   gnome-themes-standard
   gnome-user-docs
