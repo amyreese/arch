@@ -2,6 +2,10 @@
 
 statusfile=`mktemp status.XXX`
 
+vercmp() {
+	[ "$2" = `echo -e "$1\n$2" | sort -Vr | head -n1` ]
+}
+
 updatepkgbuild() {
 	pkg=$1
 	pkgbuild=$pkg/PKGBUILD
@@ -20,12 +24,13 @@ updatepkgbuild() {
 			oldver=$(git diff $pkgbuild | grep "^-pkgver=" | cut -d= -f2)
 			newver=$(git diff $pkgbuild | grep "^+pkgver=" | cut -d= -f2)
 
-			if [[ "$oldver" > "$newver" ]]; then
-				# older pkgver, revert it
-				git checkout -f $pkgbuild >/dev/null 2>&1
-			else
+			if vercmp $oldver $newver; then
 				# newer pkgver, announce it
 				echo "$pkg : $oldver => $newver" >> $statusfile
+			else
+				# older pkgver, revert it
+				echo "$pkg : $oldver => $newver (ignoring)" >> $statusfile
+				git checkout -f $pkgbuild >/dev/null 2>&1
 			fi
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgrel="); then
@@ -34,12 +39,13 @@ updatepkgbuild() {
 			oldrel=$(git diff $pkgbuild | grep "^-pkgrel=" | cut -d= -f2)
 			newrel=$(git diff $pkgbuild | grep "^+pkgrel=" | cut -d= -f2)
 
-			if [[ "$oldrel" > "$newrel" ]]; then
-				# older pkgrel, revert it
-				git checkout -f $pkgbuild >/dev/null 2>&1
-			else
+			if vercmp $oldrel $newrel; then
 				# newer pkgrel, announce it
 				echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel" >> $statusfile
+			else
+				# older pkgrel, revert it
+				echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel (ignoring)" >> $statusfile
+				git checkout -f $pkgbuild >/dev/null 2>&1
 			fi
 
 		fi
