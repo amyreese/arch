@@ -24,7 +24,8 @@ echo "Creating archroot in $archroot..."
 
 sudo mkarchroot $archroot base base-devel
 sudo mkdir -p $archroot/packages/
-sudo cp noswap-repo.sh $archroot/packages/
+sudo cp multilib-repo.sh noswap-repo.sh $archroot/packages/
+sudo arch-chroot $archroot sh /packages/multilib-repo.sh
 sudo arch-chroot $archroot sh /packages/noswap-repo.sh
 
 cleanup() {
