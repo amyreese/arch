@@ -16,4 +16,4 @@ spring*/*.sd7
 linux-ck/*patch*
 
 # pub artifacts
-repo/
+.repo/
