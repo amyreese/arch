@@ -15,7 +15,7 @@ updatepkgbuild() {
 	if $(git status -s | grep -q " $pkgbuild"); then
 		# modified pkgbuild
 
-		if $(git diff $pkgbuild | grep -q "^-epoch="); then
+		if $(git diff $pkgbuild | grep -q "^+epoch="); then
 			# newer epoch, flip tables
 			echo "$pkg : new epoch, /fliptables" >> $statusfile
 
