@@ -1,0 +1,42 @@
+# Maintainer: Sander Boom <sander at inflowmotion dot nl>
+
+pkgname=sublime-text-nightly
+pkgver=3.3034
+pkgrel=1
+pkgdesc="Sophisticated text editor for code, html and prose - nightly build (available to registered users only)"
+arch=('i686' 'x86_64')
+url="http://www.sublimetext.com/3dev"
+license=('custom')
+depends=(libpng gtk2)
+install=${pkgname}.install
+
+_archurl='x64'
+
+[[ "${CARCH}" = i686 ]] && _archurl='x32'
+
+source=(
+  "http://c758482.r82.cf2.rackcdn.com/sublime_text_3_build_${pkgver:2}_${_archurl}.tar.bz2"
+  "sublime_text_3.desktop"
+)
+md5sums=('274fc3a0654bd1a820880e1e983cec7e'
+         '3843bb9bba00e7817e3194ed99d2ff26')
+
+[[ "${CARCH}" = i686 ]] && md5sums[0]='f0c7d6f0b22532c5a9a9ae91b1aedd3f'
+
+package() {
+  cd "${srcdir}"
+
+  install -dm755 "${pkgdir}/opt"
+  cp --preserve=mode -r "sublime_text_3" "${pkgdir}/opt/sublime_text_3"
+
+  for res in 128x128 16x16 256x256 32x32 48x48; do
+    install -dm755 "${pkgdir}/usr/share/icons/hicolor/${res}/apps"
+    ln -s "/opt/sublime_text_3/Icon/${res}/sublime-text.png" "${pkgdir}/usr/share/icons/hicolor/${res}/apps/sublime-text.png"
+  done
+
+  install -dm755 "${pkgdir}/usr/share/applications"
+  install -Dm644 "sublime_text_3.desktop" "${pkgdir}/usr/share/applications/sublime_text_3.desktop"
+
+  install -dm755 "${pkgdir}/usr/bin"
+  ln -s "/opt/sublime_text_3/sublime_text" "${pkgdir}/usr/bin/subl3"
+}
