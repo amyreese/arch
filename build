@@ -74,19 +74,19 @@ do
 		fi
 
 		echo "Removing old package from repository"
-		rm -f ${localrepo}/${package}-[0-9]*-${arch}.pkg.tar.xz*
+		rm -f ${localrepo}/${package}-?[0-9]*-${arch}.pkg.tar.xz*
 
 		echo "Copying new package to repository"
-		cp ${archroot}/packages/${package}/${package}-*-${arch}.pkg.tar.xz $localrepo/
+		cp ${archroot}/packages/${package}/${package}-?[0-9]*-${arch}.pkg.tar.xz $localrepo/
 
 		echo "Entering repository"
 		pushd $localrepo
 
 		echo "Signing new package"
-		gpg --detach-sign ${package}-[0-9]*-${arch}.pkg.tar.xz
+		gpg --detach-sign ${package}-?[0-9]*-${arch}.pkg.tar.xz
 
 		echo "Updating database with new package"
-		repo-add --sign --verify $database -f ${package}-*-${arch}.pkg.tar.xz
+		repo-add --sign --verify $database -f ${package}-?[0-9]*-${arch}.pkg.tar.xz
 
 		echo "Leaving repository"
 		popd
