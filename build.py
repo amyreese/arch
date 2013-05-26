@@ -85,6 +85,7 @@ class ChrootBuild(object):
         if exists(self.root):
             log.info('Cleaning up archroot %s', self.root)
             sudo('rm -r', self.root)
+            sudo('rm', self.root + '.lock')
 
     def build(self, package):
         if not isdir(package):
