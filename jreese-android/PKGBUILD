@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-android
 pkgver=1.0
-pkgrel=2
+pkgrel=3
 epoch=0
 pkgdesc="Packages needed to build Android projects"
 arch=('any')
@@ -12,16 +12,30 @@ depends=(
   android-sdk
   android-sdk-platform-tools
   apache-ant
+  bison
+  curl
+  flex
+  gcc
+  gcc-multilib
+  git
   gperf
   jdk7-openjdk
+  lib32-ncurses
+  lib32-readline
+  lib32-zlib
   libxml2
   libxslt
+  ncurses
+  perl-switch
   pngcrush
   repo
   schedtool
   sdl
   squashfs-tools
+  unzip
   wxgtk
+  zip
+  zlib
   )
 optdepends=(
   eclipse-indigo
