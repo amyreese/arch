@@ -1,4 +1,6 @@
 # build artifacts
+.archroot/
+.archroot.lock
 pkg/
 src/
 *.tar
