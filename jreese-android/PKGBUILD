@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-android
 pkgver=1.0
-pkgrel=3
+pkgrel=4
 epoch=0
 pkgdesc="Packages needed to build Android projects"
 arch=('any')
@@ -15,8 +15,6 @@ depends=(
   bison
   curl
   flex
-  gcc
-  gcc-multilib
   git
   gperf
   jdk7-openjdk
@@ -39,6 +37,7 @@ depends=(
   )
 optdepends=(
   eclipse-indigo
+  gcc-multilib
   )
 install=
 changelog=
