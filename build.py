@@ -3,25 +3,31 @@
 import argparse
 import logging
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 
 from functools import partial
-from os import path
+from os.path import abspath, basename, dirname, exists, isdir, isfile, join
 
 def sh(*command, **kwargs):
     return subprocess.check_call(' '.join(command), shell=True, **kwargs)
+sudo = partial(sh, 'sudo')
 
 def bt(*command, **kwargs):
-    return subprocess.check_output(' '.join(command), shell=True, **kwargs).strip()
+    out = subprocess.check_output(' '.join(command), shell=True, **kwargs)
+    return out.strip().decode()
 
-LOCALREPO = ".repo/"
-REMOTEREPO = "liara:/home/jreese/pub/arch/"
-DATABASE = "noswap.db.tar.xz"
+BASE = os.getcwd()
+LOCALREPO = '.repo/'
+REMOTEREPO = 'liara:/home/jreese/pub/arch/'
+DATABASE = 'noswap.db.tar.xz'
+USERGROUP = 'jreese:jreese'
 
 CPUARCH = bt('uname -m')
+PKGREGEX = "'.*/{0}-.?[0-9].*\.pkg\.tar\.xz.*'"
 
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
@@ -38,12 +44,13 @@ class ChrootBuild(object):
             root = '.archroot'
 
         self.root = root
-        self.pkgroot = path.join(self.root, 'packages')
+        self.pkgroot = join(self.root, 'packages')
+        self.pkgpath = '/packages'
         self.fresh = fresh
         self.cleanup = clean
 
-        self.rsh = partial(sh, 'arch-chroot', self.root)
-        self.rbt = partial(bt, 'arch-chroot', self.root)
+        self.rsh = partial(sh, 'sudo', 'arch-chroot', self.root)
+        self.rbt = partial(bt, 'sudo', 'arch-chroot', self.root)
 
     def __enter__(self):
         log.debug('__enter__')
@@ -60,31 +67,59 @@ class ChrootBuild(object):
     def init(self):
         log.debug('Initializing archroot %s', self.root)
 
-        if not path.exists(self.root):
+        if not exists(self.root):
             log.info('Creating new archroot in %s', self.root)
-            sh('mkarchroot', self.root, 'base', 'base-devel')
+            sudo('mkarchroot', self.root, 'base', 'base-devel')
 
-        if path.exists(self.pkgroot):
+        if exists(self.pkgroot):
             log.debug('Cleaning old packages from %s', self.pkgroot)
-            shutil.rmtree(self.pkgroot)
-        os.makedirs(self.pkgroot)
+            sudo('rm -r', self.pkgroot)
+        sudo('mkdir -p', self.pkgroot)
 
         log.debug('Adding multilib and noswap repos')
         for script in ['multilib-repo.sh', 'noswap-repo.sh']:
-            shutil.copy(script, self.pkgroot)
-            self.rbt('sh', path.join('/packages', script))
+            sudo('cp', script, self.pkgroot)
+            self.rbt('sh', join(self.pkgpath, script))
 
     def clean(self):
-        if path.exists(self.root):
+        if exists(self.root):
             log.info('Cleaning up archroot %s', self.root)
-            shutil.rmtree(self.root)
+            sudo('rm -r', self.root)
+
+    def build(self, package):
+        if not isdir(package):
+            raise Exception('Package {0} not found'.format(package))
+        sh('chmod -R a+rX', package)
+
+        log.debug('Updating pacman')
+        self.rsh('pacman -Sy')
+
+        runroot = join(self.pkgroot, 'run.sh')
+        runpath = join(self.pkgpath, 'run.sh')
+        pkgroot = join(self.pkgroot, package)
+        pkgpath = join(self.pkgpath, package)
+        command = 'cd {0} && makepkg --asroot -s --noconfirm'.format(pkgpath)
+
+        try:
+            sh('grep arch=', join(package, 'PKGBUILD'), '| grep -q any')
+            arch = 'any'
+        except:
+            arch = CPUARCH
+        log.debug('Package arch: %s', arch)
+
+        log.debug('Copying sources to archroot')
+        sudo('cp -r', package, pkgroot)
+
+        with open('run.sh', 'w') as f:
+            f.write(command + '\n')
+        sudo('mv', 'run.sh', runroot)
+
+        log.debug('Building: `%s`', command)
+        self.rsh('sh', runpath)
+
+        return bt('find', pkgroot, '-iregex', PKGREGEX.format(package))
 
 if __name__ == '__main__':
-
-    if os.getuid():
-        args = ['sudo'] + sys.argv
-        os.execvp(args[0], args)
-        assert False, 'execvp failed!'
 
     parser = argparse.ArgumentParser(description='Build packages')
     parser.add_argument('--debug', action='store_true', default=False,
@@ -103,6 +138,55 @@ if __name__ == '__main__':
     if args.debug:
         log.setLevel(logging.DEBUG)
 
+    if os.getuid():
+        log.debug('Requesting sudo access')
+        sh('sudo true')
+
+    log.debug('Syncing local repository from remote')
+    sh('rsync -avz --delete', REMOTEREPO, LOCALREPO)
+
+    completed = set()
+    failed = set()
+
     with ChrootBuild(root=args.root, fresh=args.fresh, clean=args.clean) as chroot:
-        pass
-        #chroot.build(packages)
+        for package in args.packages:
+            try:
+                os.chdir(BASE)
+
+                log.info('--- %s ---', package)
+
+                pkgfile = chroot.build(package)
+                pkg = basename(pkgfile)
+
+                log.debug('Deleting old package from repository')
+                sh('find', LOCALREPO, '-iregex', PKGREGEX.format(package),
+                   '-delete')
+
+                log.debug('Copying new package to repository')
+                shutil.copy(pkgfile, LOCALREPO)
+
+                os.chdir(LOCALREPO)
+
+                log.info('Signing package')
+                sh('gpg --detach-sign ', pkg)
+
+                log.info('Updating database')
+                sh('repo-add --sign --verify', DATABASE, '-f', pkg)
+
+                os.chdir(BASE)
+
+                log.debug('Syncing local repository to remote')
+                sh('rsync -avz --delete', LOCALREPO, REMOTEREPO)
+
+                completed.add(package)
+            except:
+                log.exception('Build failed')
+                failed.add(package)
+
+    if args.packages:
+        log.info('--- Results ---')
+    if completed:
+        log.info('Builds completed: %s', ', '.join(completed))
+    if failed:
+        log.info('Builds failed: %s', ', '.join(failed))
+        sys.exit(-1)
