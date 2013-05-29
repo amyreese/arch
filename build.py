@@ -118,7 +118,7 @@ class ChrootBuild(object):
         log.debug('Building: `%s`', command)
         self.rsh('sh', runpath)
 
-        return bt('find', pkgroot, '-iregex', PKGREGEX.format(package))
+        return bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
 
 if __name__ == '__main__':
 
