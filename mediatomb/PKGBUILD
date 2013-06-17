@@ -35,7 +35,9 @@ build() {
   patch -Np1 -i "$srcdir/libavformat.patch"
 
   ./configure --prefix=/usr \
+              --enable-mysql \
               --enable-libmagic \
+              --enable-libjs \
               --enable-ffmpeg
   make
 }
