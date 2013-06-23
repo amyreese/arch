@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=22
+pkgrel=23
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -46,6 +46,7 @@ depends=(
   yelp
 
   # gnome-extra group
+  baobab
   eog
   eog-plugins
   evince
@@ -55,11 +56,15 @@ depends=(
   gedit
   gnome-calculator
   gnome-color-manager
+  gnome-dictionary
   gnome-disk-utility
+  gnome-font-viewer
   gnome-nettool
   gnome-power-manager
+  gnome-screenshot
+  gnome-search-tool
+  gnome-system-log
   gnome-system-monitor
-  gnome-utils
   mousetweaks
   seahorse
 
