@@ -1,0 +1,21 @@
+#!/bin/bash
+
+localrepo=".repo/"
+remoterepo="liara:/home/jreese/pub/arch/"
+database="noswap.db.tar.xz"
+
+echo "Syncing local repository from remote repository..."
+rsync -avz --delete $remoterepo $localrepo
+
+pushd $localrepo
+
+echo "Removing package from database"
+repo-remove --sign --verify $database $1
+
+echo "Removing package files from repositry"
+find . -iregex "'.*/$1-.?[0-9].*\.pkg\.tar\.xz.*'" -delete
+
+popd
+
+echo "Syncing local repository to remote repository..."
+rsync -avz --delete $localrepo $remoterepo
