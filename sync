@@ -1,6 +1,6 @@
 #!/bin/bash
 
-localrepo="repo/"
+localrepo=".repo/"
 remoterepo="liara:/home/jreese/pub/arch/"
 database="noswap.db.tar.xz"
 
