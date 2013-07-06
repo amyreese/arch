@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=27
+pkgrel=28
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -78,11 +78,15 @@ optdepends=(
 conflicts=(
   pacman-color
   )
-install=
-changelog=
+source=(
+  dvorak-jreese.map.gz
+  )
+md5sums=(
+  '7fd7bfd8fb1f93372f7c78c7c1d43f2f'
+  )
 
 build() {
-  true
+  install -Dm644 $srcdir/${source[0]} $pkgdir/usr/share/kbd/keymaps/i386/dvorak/${source[0]}
 }
 
 check() {
