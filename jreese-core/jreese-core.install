@@ -1,0 +1,7 @@
+post_install() {
+	grep '^/bin/zsh' /etc/shells || echo '/bin/zsh' >> /etc/shells
+}
+
+post_upgrade() {
+	grep '^/bin/zsh' /etc/shells || echo '/bin/zsh' >> /etc/shells
+}
