@@ -12,11 +12,20 @@ import tempfile
 from functools import partial
 from os.path import abspath, basename, dirname, exists, isdir, isfile, join
 
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+log = logging.getLogger(__name__)
+log.addHandler(ch)
+log.setLevel(logging.INFO)
+
 def sh(*command, **kwargs):
+    log.debug('shell: %s', ' '.join(command))
     return subprocess.check_call(' '.join(command), shell=True, **kwargs)
 sudo = partial(sh, 'sudo')
 
 def bt(*command, **kwargs):
+    log.debug('shell: %s', ' '.join(command))
     out = subprocess.check_output(' '.join(command), shell=True, **kwargs)
     return out.strip().decode()
 
@@ -28,13 +37,6 @@ USERGROUP = 'jreese:jreese'
 
 CPUARCH = bt('uname -m')
 PKGREGEX = "'.*/{0}-.?[0-9].*\.pkg\.tar\.xz.*'"
-
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-
-log = logging.getLogger(__name__)
-log.addHandler(ch)
-log.setLevel(logging.INFO)
 
 class ChrootBuild(object):
     def __init__(self, root=None, fresh=False, clean=False):
