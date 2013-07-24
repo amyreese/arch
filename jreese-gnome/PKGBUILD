@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=24
+pkgrel=25
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -20,6 +20,8 @@ depends=(
   xorg-xev
   xorg-xmodmap
   xorg-xrandr
+  xf86-video-intel
+  xf86-input-mtrack-git
 
   # gnome group
   gnome-applets
@@ -89,10 +91,12 @@ depends=(
   vlc
 
   # other packages
+  delorean-dark-theme-3.6
   faenza-icon-theme
   faience-icon-theme
   ffmpeg-spotify
   flashplugin
+  mediterraneannight-theme
   nautilus-dropbox
   synergy
   ttf-bitstream-vera
@@ -111,14 +115,8 @@ conflicts=(
   )
 
 optdepends=(
-  'nouveau-dri: open source Nvidia driver'
-  'nvidia: binary Nvidia driver'
-  'xf86-video-intel: Intel driver'
   'xf86-video-nouveau: open source Nvidia driver'
-  'xf86-input-multitouch-git: Macbook touchpad driver'
-  'zfs-fuse: ZFS driver'
-  'mediterranean-night: dark GTK2/GTK3 theme'
-  'delorean-dark: dark GTK2/GTK3/Shell theme'
+  'nvidia: binary Nvidia driver'
   )
 install=
 changelog=
