@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=25
+pkgrel=26
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -20,8 +20,9 @@ depends=(
   xorg-xev
   xorg-xmodmap
   xorg-xrandr
-  xf86-video-intel
   xf86-input-mtrack-git
+  xf86-video-intel
+  xf86-video-nouveau
 
   # gnome group
   gnome-applets
@@ -115,7 +116,6 @@ conflicts=(
   )
 
 optdepends=(
-  'xf86-video-nouveau: open source Nvidia driver'
   'nvidia: binary Nvidia driver'
   )
 install=
