@@ -1,0 +1,20 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-drivers
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="Generic, open source graphics card drivers"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+depends=(
+  xf86-video-intel
+  xf86-video-nouveau
+  )
+
+conflicts=(
+  nvidia
+  )
+
+# vim:set ts=2 sw=2 et:

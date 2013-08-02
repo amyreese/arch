@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=26
+pkgrel=27
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -21,8 +21,6 @@ depends=(
   xorg-xmodmap
   xorg-xrandr
   xf86-input-mtrack-git
-  xf86-video-intel
-  xf86-video-nouveau
 
   # gnome group
   gnome-applets
@@ -116,17 +114,8 @@ conflicts=(
   )
 
 optdepends=(
+  'jreese-drivers: open source graphics drivers'
   'nvidia: binary Nvidia driver'
   )
-install=
-changelog=
-
-build() {
-  true
-}
-
-check() {
-  true
-}
 
 # vim:set ts=2 sw=2 et:
