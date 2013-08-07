@@ -9,11 +9,16 @@ rsync -avz --delete $remoterepo $localrepo
 
 pushd $localrepo
 
-echo "Removing package from database"
-repo-remove --sign --verify $database $1
+until [ -z "$1" ]
+do
+	echo "Removing package $1 from database"
+	repo-remove --sign --verify $database $1
 
-echo "Removing package files from repositry"
-find . -iregex ".*/$1-.?[0-9].*\.pkg\.tar\.xz.*" -delete
+	echo "Removing package files from repositry"
+	find . -iregex ".*/$1-.?[0-9].*\.pkg\.tar\.xz.*" -delete
+
+	shift
+done
 
 popd
 
