@@ -13,7 +13,7 @@ echo "Removing package from database"
 repo-remove --sign --verify $database $1
 
 echo "Removing package files from repositry"
-find . -iregex "'.*/$1-.?[0-9].*\.pkg\.tar\.xz.*'" -delete
+find . -iregex ".*/$1-.?[0-9].*\.pkg\.tar\.xz.*" -delete
 
 popd
 
