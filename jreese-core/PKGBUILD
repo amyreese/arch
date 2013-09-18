@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=31
+pkgrel=32
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -19,6 +19,7 @@ depends=(
   curl
   devtools
   dnsutils
+  dotlink
   ecryptfs-utils
   elinks
   expac
