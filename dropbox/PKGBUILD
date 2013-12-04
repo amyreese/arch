@@ -3,7 +3,7 @@
 # Contributor: David Manouchehri <d@32t.ca>
 
 pkgname=dropbox
-pkgver=2.4.6
+pkgver=2.4.8
 pkgrel=1
 pkgdesc="A free service that lets you bring your photos, docs, and videos anywhere and share them easily."
 arch=("i686" "x86_64")
@@ -19,12 +19,12 @@ options=('!strip' '!upx')
 _source_arch="x86"
 [ "$CARCH" = "x86_64" ] && _source_arch="x86_64"
 
-sha512sums=('09886323087e690320f6d42ce8517c9a4f40d3c93dbfc6bc31de1448fbf34c0d1d7d2545c6e4cca58ef1760cad7f98734902279f54354431946df14a4e0fdcdb'
-            'f480b7d8940c163a721d84db8fe7df8ec9e60d150b7119c9ec9d87f5af003c9a1fe88cdb1c6349d87ba2f23e56115d1a1f081e6e1107ce6e56b64a8efdbdc97b'
+sha512sums=('c3fb129d0a4eee09cef613637764d72899a10af659001b5985a690c2dc79edc75f2f33ac2ffa30e93fe444e5141e5cff80cb5c9ca90e9b33d170821de9eee934'
+            'b1a2ca11479c9f243c0368d79b36ef87910311af2dd126a3291438083544ed10a640143a58e73be1d27bf016c114e668ea504ed6eed6955370bfcac309e5fb7d'
             'b3e0701afe90693b99d5e23bad6b8637bc27611a42c695d12b3b990d98bf010371b266322cd54c60ffd654ed44f56a85b1fcb51b30db991af60043dc22bf1897'
-            '55b4b0c024c69787045a200f08129bdaaf450446c588b14f1044269021613c756e1422ece33c16c38b612183332dbdcdfb638859480717801285b7476fe5392b'
+            'f688115daa8930dffd6e27a7113b137972c20918297c6178bb7e8f820add325d34d452f8bf6bb73fa6b2de73ffa028d27457ed2df390687af8841d9425ebab3e'
             'b08a50766681a55e3bf9f1721549218996dd4dbef183dce4967622a98a52fdcc47325de99794b40462692213bbe390f659cf48023b407ae4fce81997af4d46e2')
-[ "$CARCH" = "x86_64" ] && sha512sums[0]='0a20e293b5775781105956aca4fdb821e8da502e6b376d97b083565e393ee8e0963fb220c87a903acabb26eb48761d123e96e3c1a567708a62e55d775b8d26c7'
+[ "$CARCH" = "x86_64" ] && sha512sums[0]='ceb1a8dac1c3e06868361160d54ad5fdd2f8c9257049c8c503115ced00c6184bb82c062e9a4e8a04b7b28b9fdb9eb7ff442e0b7dabbe7ce410e1dfe2c6e0f763'
 
 source=("https://dl-web.dropbox.com/u/17/${pkgname}-lnx.${_source_arch}-${pkgver}.tar.gz"
         "dropbox.png"
