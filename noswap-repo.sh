@@ -11,7 +11,8 @@ else
 	echo "[noswap]" >> $pac
 	echo "Server = http://pub.noswap.com/arch" >> $pac
 
-	echo "signing gpg key for jreese@leetcode.net (D53EA311DE6184DC)"
-	pacman-key --lsign-key D53EA311DE6184DC
 fi
+
+echo "signing gpg key for jreese@leetcode.net (D53EA311DE6184DC)"
+pacman-key --lsign-key D53EA311DE6184DC
 
