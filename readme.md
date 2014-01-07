@@ -25,6 +25,11 @@ lines to `/etc/pacman.conf`:
 
     [noswap]
     Server = http://pub.noswap.com/arch/
+    
+Make sure that if you manually add the repository, you also import my GPG key:
+
+    $ pacman-key --recv-keys D53EA311DE6184DC
+    $ pacman-key --lsign-key D53EA311DE6184DC
 
 
 License
