@@ -120,7 +120,10 @@ class ChrootBuild(object):
         log.debug('Building: `%s`', command)
         self.rsh('sh', runpath)
 
-        return bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
+        pkgfile = bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
+        log.debug('Built package file "%s"', pkgfile)
+
+        return pkgfile
 
 if __name__ == '__main__':
 
