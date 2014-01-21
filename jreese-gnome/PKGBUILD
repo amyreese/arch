@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=28
+pkgrel=29
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -23,54 +23,49 @@ depends=(
   xf86-input-mtrack-git
 
   # gnome group
-  gnome-applets
-  gnome-backgrounds
-  gnome-control-center
-  gnome-desktop
-  gnome-icon-theme
-  gnome-icon-theme-extras
-  gnome-icon-theme-symbolic
-  gnome-keyring
-  gnome-panel
-  gnome-screensaver
-  gnome-session
-  gnome-settings-daemon
-  gnome-shell
-  gnome-shell-extensions
-  gnome-terminal
-  gnome-themes-standard
-  gnome-user-docs
-  metacity
-  mutter
-  nautilus
-  notification-daemon
-  yelp
-
-  # gnome-extra group
   baobab
   eog
   eog-plugins
   evince
-  file-roller
-  gconf-editor
   gdm
-  gedit
-  gnome-calculator
-  gnome-color-manager
+  gnome-backgrounds
+  gnome-control-center
+  gnome-desktop
   gnome-dictionary
   gnome-disk-utility
   gnome-font-viewer
-  gnome-nettool
-  gnome-power-manager
+  gnome-icon-theme
+  gnome-icon-theme-extras
+  gnome-icon-theme-symbolic
+  gnome-keyring
   gnome-screenshot
-  gnome-search-tool
+  gnome-session
+  gnome-settings-daemon
+  gnome-shell
+  gnome-shell-extensions
   gnome-system-log
   gnome-system-monitor
+  gnome-terminal
+  gnome-themes-standard
+  gnome-user-docs
   mousetweaks
+  mutter
+  nautilus
+  yelp
+
+  # gnome-extra group
+  brasero
+  file-roller
+  gedit
+  gnome-color-manager
+  gnome-nettool
+  nautilus-sendto
   seahorse
 
   # gnome apps
-  brasero
+  gconf-editor
+  gnome-power-manager
+  gnome-search-tool
   gnome-tweak-tool
   gparted
   gvfs-smb
