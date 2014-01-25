@@ -54,6 +54,13 @@ class ChrootBuild(object):
         self.rsh = partial(sh, 'sudo', 'arch-chroot', self.root)
         self.rbt = partial(bt, 'sudo', 'arch-chroot', self.root)
 
+        # make sure the chroot isn't already mounted
+        try:
+            sh('sudo umount', abspath(join(self.root, 'dev')))
+            sh('sudo umount', abspath(self.root))
+        except:
+            pass
+
     def __enter__(self):
         log.debug('__enter__')
         if self.fresh:
