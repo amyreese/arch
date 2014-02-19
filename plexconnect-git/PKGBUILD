@@ -7,7 +7,7 @@
 
 pkgname=plexconnect-git
 pkgver=20140218
-pkgrel=1
+pkgrel=2
 pkgdesc="Integration layer between Apple TV and Plex"
 arch=('any')
 url="https://github.com/iBaa/PlexConnect"
@@ -38,6 +38,8 @@ package() {
 
   mkdir -p "$pkgpath/"
   cp -r * "$pkgpath/"
+
+  install -Dm644 "$srcdir/plexconnect.service" "$pkgdir/usr/lib/systemd/system/plexconnect.service"
 }
 
 # vim:set ts=2 sw=2 et:
