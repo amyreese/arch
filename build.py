@@ -132,37 +132,13 @@ class ChrootBuild(object):
 
         return pkgfile
 
-if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Build packages')
-    parser.add_argument('--debug', action='store_true', default=False,
-                        help='debug output')
-    parser.add_argument('--root', type=str, default=None,
-                        help='root directory of existing archroot')
-    parser.add_argument('--fresh', action='store_true', default=False,
-                        help='force creating a fresh archroot')
-    parser.add_argument('--clean', action='store_true', default=False,
-                        help='cleanup archroot after running builds')
-    parser.add_argument('packages', metavar='PACKAGE', type=str, nargs='*',
-                        help='list of package names to build')
-
-    args = parser.parse_args()
-
-    if args.debug:
-        log.setLevel(logging.DEBUG)
-
-    if os.getuid():
-        log.debug('Requesting sudo access')
-        sh('sudo true')
-
-    log.debug('Syncing local repository from remote')
-    sh('rsync -avz --delete', REMOTEREPO, LOCALREPO)
-
+def build_packages(args, packages):
     completed = set()
     failed = set()
 
     with ChrootBuild(root=args.root, fresh=args.fresh, clean=args.clean) as chroot:
-        for package in args.packages:
+        for package in packages:
             try:
                 os.chdir(BASE)
 
@@ -196,10 +172,57 @@ if __name__ == '__main__':
                 log.exception('Build failed')
                 failed.add(package)
 
+    return completed, failed
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(description='Build packages')
+    parser.add_argument('--debug', action='store_true', default=False,
+                        help='debug output')
+    parser.add_argument('--root', type=str, default=None,
+                        help='root directory of existing archroot')
+    parser.add_argument('--fresh', action='store_true', default=False,
+                        help='force creating a fresh archroot')
+    parser.add_argument('--clean', action='store_true', default=False,
+                        help='cleanup archroot after running builds')
+    parser.add_argument('packages', metavar='PACKAGE', type=str, nargs='*',
+                        help='list of package names to build')
+
+    args = parser.parse_args()
+
+    if args.debug:
+        log.setLevel(logging.DEBUG)
+
+    if os.getuid():
+        log.debug('Requesting sudo access')
+        sh('sudo true')
+
+    log.debug('Syncing local repository from remote')
+    sh('rsync -avz --delete', REMOTEREPO, LOCALREPO)
+
+    finished = set()
+    waiting = set(args.packages)
+
+    retry = 0
+    while retry <= len(waiting):
+        retry += 1
+
+        completed, failed = build_packages(args, waiting)
+        finished |= completed
+        waiting -= completed
+
+        log.info('--- Pass %d ---', retry)
+
+        if completed:
+            log.info('Completed: %s', ', '.join(completed))
+        if failed:
+            log.info('Failed: %s', ', '.join(failed))
+
     if args.packages:
         log.info('--- Results ---')
-    if completed:
-        log.info('Builds completed: %s', ', '.join(completed))
+    if finished:
+        log.info('Builds completed: %s', ', '.join(finished))
     if failed:
         log.info('Builds failed: %s', ', '.join(failed))
         sys.exit(-1)
