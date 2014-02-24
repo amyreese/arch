@@ -219,6 +219,8 @@ if __name__ == '__main__':
         if failed:
             log.info('Failed: %s', ', '.join(failed))
 
+        args.fresh = False
+
     if args.packages:
         log.info('--- Results ---')
     if finished:
