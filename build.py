@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 
-from functools import partial
+from functools import lru_cache, partial
 from os.path import abspath, basename, dirname, exists, isdir, isfile, join
 
 ch = logging.StreamHandler()
@@ -174,8 +174,59 @@ def build_packages(args, packages):
 
     return completed, failed
 
+package_dep_re = re.compile(r'^(.*?)(?:[<>=].*)?$')
+@lru_cache()
+def package_deps(package):
+    pkgbuild = join(package, 'PKGBUILD')
+    if not isfile(pkgbuild):
+        return []
+
+    try:
+        dependencies = bt("sh -c 'source {0} && echo $depends'".format(pkgbuild)).split()
+        dependencies = [package_dep_re.sub(r'\1', dep) for dep in dependencies]
+        log.debug('Package %s depends on %s', package, dependencies)
+        return dependencies
+    except:
+        return []
+
+def resolve_dependencies(packages):
+    queue = list(packages)
+    packages = []
+
+    log.debug('Unresolved build order: %s', queue)
+
+    limit = len(queue) + 1
+    tries = 0
+    while len(queue):
+        tries += 1
+        if tries >= limit:
+            log.error('Could not resolve package dependencies after %d tries,\n'
+                      'resolved packages: %s\nunresolved packages: %s',
+                      tries, packages, queue)
+            return []
+
+        package = queue.pop(0)
+        log.debug('checking if %s has any dependencies on %s', package, queue)
+
+        for name in package_deps(package):
+            if name in queue:
+                log.debug('package %s depends on %s', package, name)
+                queue.append(package)
+                break
+
+        if package not in queue:
+            log.debug('package %s in no dependency lists', package)
+            packages.append(package)
+            limit = tries + len(queue) + 1
+
+    log.debug('Resolved build order: %s', packages)
+
+    return packages
+
 
 if __name__ == '__main__':
+
+    os.putenv('INFAKEROOT', '1')
 
     parser = argparse.ArgumentParser(description='Build packages')
     parser.add_argument('--debug', action='store_true', default=False,
@@ -202,7 +253,8 @@ if __name__ == '__main__':
     sh('rsync -avz --delete', REMOTEREPO, LOCALREPO)
 
     finished = set()
-    waiting = set(args.packages)
+    failed = set()
+    waiting = resolve_dependencies(set(args.packages))
 
     retry = 0
     while retry <= len(waiting):
@@ -210,7 +262,8 @@ if __name__ == '__main__':
 
         completed, failed = build_packages(args, waiting)
         finished |= completed
-        waiting -= completed
+        for package in completed:
+            waiting.remove(package)
 
         log.info('--- Pass %d ---', retry)
 
