@@ -1,0 +1,44 @@
+# Maintainer: Christian Hesse <mail@eworm.de
+
+pkgname=libyubikey-git
+pkgver=20140223
+pkgrel=1
+pkgdesc="Yubico C low-level library"
+arch=('i686' 'x86_64')
+url="http://code.google.com/p/yubico-c/"
+license=('custom:BSD')
+makedepends=('git')
+depends=('libusb')
+conflicts=('libyubikey')
+install=libyubikey.install
+_gitname='yubico-c'
+_gitroot="git://github.com/Yubico/$_gitname.git"
+source=("$_gitroot"
+        'libyubikey.install'
+		'70-yubikey.rules')
+
+pkgver() {
+  cd "$srcdir/$_gitname"
+  git log -1 --format="%cd" --date=short | sed 's|-||g'
+}
+
+build() {
+	cd ${srcdir}/${_gitname}/
+
+	autoreconf --install
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd ${srcdir}/${_gitname}/
+
+	make DESTDIR="${pkgdir}/" install
+
+	install -D -m0644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+	install -D -m0644 README "${pkgdir}/usr/share/doc/${pkgname}/README"
+}
+
+sha256sums=('SKIP'
+            'e0d142f62c6181a5d66327c93a41c2e7089e603cea3d591fe2c7499b9b596e22'
+			'5ae001cd6356115123a454db8dcdb1392aa5167460b52ee6e68f3509b4c3aa86')
