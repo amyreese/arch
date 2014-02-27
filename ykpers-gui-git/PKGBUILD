@@ -9,8 +9,8 @@ url="https://github.com/Yubico/yubikey-personalization-gui"
 license=('BSD')
 depends=('ykpers-git' 'qt5-base')
 makedepends=('git' 'imagemagick')
-provides=('yubikey-personalization-gui' 'yubikey-personalization-tool')
-conflicts=('yubikey-personalization-gui' 'yubikey-personalization-tool')
+provides=('yubikey-personalization-gui-git' 'yubikey-personalization-gui' 'yubikey-personalization-tool')
+conflicts=('yubikey-personalization-gui-git' 'yubikey-personalization-gui' 'yubikey-personalization-tool')
 install=yubikey-personalization-gui.install
 source=('git://github.com/Yubico/yubikey-personalization-gui.git')
 
