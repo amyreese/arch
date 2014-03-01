@@ -171,7 +171,7 @@ def build_packages(args, packages):
                 os.chdir(BASE)
 
                 log.debug('Syncing local repository to remote')
-                sh('rsync -avz --delete', LOCALREPO, REMOTEREPO)
+                sh('rsync --progress -avz --delete', LOCALREPO, REMOTEREPO)
 
                 completed.add(package)
             except:
@@ -256,7 +256,7 @@ if __name__ == '__main__':
         sh('sudo true')
 
     log.debug('Syncing local repository from remote')
-    sh('rsync -avz --delete', REMOTEREPO, LOCALREPO)
+    sh('rsync --progress -avz --delete', REMOTEREPO, LOCALREPO)
 
     finished = set()
     failed = set()
