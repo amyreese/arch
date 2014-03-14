@@ -2,5 +2,6 @@
 
 tmp=`mktemp`
 pacman -Syu --noconfirm > $tmp 2>&1
+paccache -r -k3 >> $tmp 2>&1
 mailx -s "Package Updates (`hostname`)" root < $tmp
 rm -f $tmp
