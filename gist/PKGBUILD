@@ -1,0 +1,24 @@
+# Maintainer: Chris van Dijk (quigybo) <quigybo at hotmail dot com>
+# Contributor: Scott Olson <scott at scott-olson dot org>
+
+pkgname=gist
+pkgver=4.2.1
+pkgrel=1
+pkgdesc="Potentially the best command line gister"
+arch=('any')
+url="http://github.com/defunkt/gist"
+license=('MIT')
+depends=('ruby')
+optdepends=("xclip: put pasted gist's url into X selection automagically"
+            "xsel: put pasted gist's url into X selection automagically")
+source=("https://github.com/defunkt/${pkgname}/archive/v${pkgver}.tar.gz")
+sha256sums=('36fd18c9dcee0117a9c9b277cfffd798a36a3b26e033976e550eb1e694afe758')
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    install -Dm755 build/${pkgname} "${pkgdir}/usr/bin/${pkgname}"
+    install -Dm644 build/${pkgname}.1 "${pkgdir}/usr/share/man/man1/${pkgname}.1"
+    install -Dm644 LICENSE.MIT "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
+
