@@ -1,0 +1,32 @@
+# Maintainer: John Reese <john@noswap.com>
+# Upstream URL: https://github.com/atom/atom
+#
+# For improvements/fixes to this package, please send a pull request:
+# https://github.com/jreese/arch
+
+pkgname=atom-editor
+pkgver=0.94.0
+pkgrel=1
+pkgdesc="Chrome-based text editor from Github"
+arch=('any')
+url="https://github.com/atom/atom"
+license=('MIT')
+depends=('libgnome-keyring' 'python2' 'nodejs')
+source=("https://github.com/atom/atom/archive/v${pkgver}.tar.gz")
+sha256sums=('4c4f5cf11faf5598cdd78c94c903cc6775f2de444c94714e2a990635aa4c89bf')
+makedepends=('git')
+
+build() {
+  cd "$srcdir/atom-$pkgver"
+  export PYTHON=python2
+  script/build
+}
+
+package() {
+  cd "$srcdir/atom-$pkgver"
+  export PYTHON=python2
+  script/grunt install
+  ln -s "/usr/lib/libudev.so" "$pkgdir/usr/lib/libudev.so.0"
+}
+
+# vim:set ts=2 sw=2 et:
