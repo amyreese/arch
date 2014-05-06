@@ -7,12 +7,12 @@
 
 pkgname=atom-editor-git
 pkgver=20140506
-pkgrel=1
+pkgrel=2
 pkgdesc="Chrome-based text editor from Github"
 arch=('any')
 url="https://github.com/atom/atom"
 license=('MIT')
-depends=('libgnome-keyring' 'python2' 'nodejs')
+depends=('libgnome-keyring' 'libgcrypt' 'python2' 'nodejs')
 makedepends=('git')
 
 _gitroot="git://github.com/atom/atom"
@@ -35,7 +35,9 @@ build() {
 package() {
   cd "$srcdir/$_gitname"
   export PYTHON=python2
+  export INSTALL_PREFIX="$pkgdir/usr/local"
   script/grunt install
+  install -d "$pkgdir/usr/lib"
   ln -s "/usr/lib/libudev.so" "$pkgdir/usr/lib/libudev.so.0"
 }
 
