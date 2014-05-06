@@ -86,6 +86,9 @@ class ChrootBuild(object):
             log.info('Creating new archroot in %s', self.root)
             sudo('mkarchroot', self.root, 'base', 'base-devel')
 
+            log.info('Creating arch user with uid 1000')
+            self.rsh('useradd -m -u 1000 -U arch')
+
         if exists(self.pkgroot):
             log.debug('Cleaning old packages from %s', self.pkgroot)
             sudo('rm -r', self.pkgroot)
