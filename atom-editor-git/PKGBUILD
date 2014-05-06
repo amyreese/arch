@@ -7,9 +7,9 @@
 
 pkgname=atom-editor-git
 pkgver=20140506
-pkgrel=3
+pkgrel=4
 pkgdesc="Chrome-based text editor from Github"
-arch=('any')
+arch=('i686' 'x86_64')
 url="https://github.com/atom/atom"
 license=('MIT')
 depends=('libgnome-keyring' 'libgcrypt15' 'libudev.so.0' 'python2' 'nodejs')
