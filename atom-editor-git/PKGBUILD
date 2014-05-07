@@ -7,7 +7,7 @@
 
 pkgname=atom-editor-git
 pkgver=20140506
-pkgrel=4
+pkgrel=7
 pkgdesc="Chrome-based text editor from Github"
 arch=('i686' 'x86_64')
 url="https://github.com/atom/atom"
@@ -35,8 +35,15 @@ build() {
 package() {
   cd "$srcdir/$_gitname"
   export PYTHON=python2
-  export INSTALL_PREFIX="$pkgdir/usr/local"
+  export INSTALL_PREFIX="$pkgdir/usr"
   script/grunt install
+
+  install -d "$pkgdir/usr/share/applications"
+  sed -e "s/<%=.*%>/$pkgdesc/" resources/linux/Atom.desktop.in \
+    > "$pkgdir/usr/share/applications/Atom.desktop"
+
+  install -d "$pkgdir/usr/share/pixmaps"
+  install resources/atom.png "$pkgdir/usr/share/pixmaps/atom.png"
 }
 
 # vim:set ts=2 sw=2 et:
