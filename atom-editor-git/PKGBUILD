@@ -6,11 +6,12 @@
 
 pkgname=atom-editor-git
 pkgver=20140512
-pkgrel=1
+pkgrel=2
 pkgdesc="Chrome-based text editor from Github"
 arch=('x86_64')
 url="https://github.com/atom/atom"
 license=('MIT')
+provides=('atom-editor')
 conflicts=('atom-editor')
 depends=('alsa-lib' 'gconf' 'gtk2' 'libgcrypt' 'libgnome-keyring' 'libnotify' 'libxtst' 'nodejs' 'nss' 'python2')
 makedepends=('git')
@@ -44,7 +45,7 @@ package() {
 
   sed -e "s/<%=.*%>/$pkgdesc/" resources/linux/Atom.desktop.in \
     > resources/linux/Atom.desktop
-  install -Dm644"$pkgdir/usr/share/applications/Atom.desktop"
+  install -Dm644 resources/linux/Atom.desktop "$pkgdir/usr/share/applications/Atom.desktop"
 
   install -Dm644 resources/atom.png "$pkgdir/usr/share/pixmaps/atom.png"
   install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
