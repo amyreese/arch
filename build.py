@@ -246,6 +246,8 @@ if __name__ == '__main__':
                         help='force creating a fresh archroot')
     parser.add_argument('--clean', action='store_true', default=False,
                         help='cleanup archroot after running builds')
+    parser.add_argument('--retry', type=int, default=None,
+                        help='specify the number of retries to attempt')
     parser.add_argument('packages', metavar='PACKAGE', type=str, nargs='*',
                         help='list of package names to build')
 
@@ -266,7 +268,8 @@ if __name__ == '__main__':
     waiting = resolve_dependencies(set(args.packages))
 
     retry = 0
-    while retry <= len(waiting):
+    while ((args.retry is None and retry <= len(waiting))
+            or retry <= args.retry):
         retry += 1
 
         completed, failed = build_packages(args, waiting)
