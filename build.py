@@ -269,7 +269,7 @@ if __name__ == '__main__':
 
     retry = 0
     while ((args.retry is None and retry <= len(waiting))
-            or retry <= args.retry):
+            or (args.retry is not None and retry <= args.retry)):
         retry += 1
 
         completed, failed = build_packages(args, waiting)
