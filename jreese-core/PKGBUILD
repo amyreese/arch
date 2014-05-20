@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=32
+pkgrel=33
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -59,6 +59,7 @@ depends=(
   python-pip
   python-sh
   python-virtualenv
+  renameutils
   rsync
   screen
   start-stop-daemon
