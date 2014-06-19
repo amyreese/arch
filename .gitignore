@@ -1,3 +1,6 @@
+# aur artifacts
+.AURINFO
+
 # build artifacts
 .archroot/
 .archroot.lock
