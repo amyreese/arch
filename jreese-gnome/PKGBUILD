@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=31
+pkgrel=32
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -92,8 +92,10 @@ depends=(
   ttf-bitstream-vera
   ttf-dejavu
   ttf-droid
+  ttf-font-awesome
   ttf-inconsolata
   ttf-monaco
+  ttf-octicons
   ttf-roboto
   ttf-ubuntu-font-family
   )

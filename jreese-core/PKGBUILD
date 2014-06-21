@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=34
+pkgrel=35
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -33,6 +33,7 @@ depends=(
   inetutils
   iotop
   irssi
+  keybase
   keychain
   lessc
   lsb-release
