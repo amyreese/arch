@@ -20,16 +20,6 @@ makedepends=('git')
 _gitref='758abf8c8a61701ba6931fb77377503c39f56763'
 _gitbranch='master'
 
-build() {
-  cd "$srcdir/atom-$pkgver"
-
-  export PYTHON=python2
-  export JANKY_SHA1=$_gitref
-  export JANKY_BRANCH=$_gitbranch
-
-  script/build
-}
-
 package() {
   cd "$srcdir/atom-$pkgver"
 
@@ -38,6 +28,7 @@ package() {
   export JANKY_SHA1=$_gitref
   export JANKY_BRANCH=$_gitbranch
 
+  script/build --install-dir=$pkgdir/usr
   script/grunt install
 
   patch "$pkgdir/usr/bin/atom" < "$srcdir/atom-python.patch"
