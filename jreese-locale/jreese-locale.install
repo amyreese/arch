@@ -1,0 +1,11 @@
+post_install() {
+    echo Modifying /etc/locale.gen ...
+    sed -i 's/#en_US/en_US/' /etc/locale.gen                                                                                                                                             
+
+    echo Regenerating locale ...
+    locale-gen
+}
+
+post_upgrade() {
+	post_install
+}

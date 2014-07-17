@@ -1,0 +1,17 @@
+
+# Maintainer: John Reese <john@noswap.com>
+pkgname=jreese-locale
+pkgver=1.0
+pkgrel=1
+epoch=0
+pkgdesc="Enable the en_US locale"
+arch=('any')
+url="http://github.com/jreese/arch"
+license=('MIT')
+install=jreese-locale.install
+
+package() {
+  true
+}
+
+# vim:set ts=2 sw=2 et:
