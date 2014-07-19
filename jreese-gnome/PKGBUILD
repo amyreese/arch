@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=32
+pkgrel=33
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -87,11 +87,19 @@ depends=(
   faience-icon-theme
   ffmpeg-spotify
   flashplugin
+  mediterraneannight-theme-git
   nautilus-dropbox
   synergy
+
+  # fonts
+  adobe-source-sans-pro-fonts
+  adobe-source-code-pro-fonts
+  otf-fira-mono
+  otf-fira-sans
   ttf-bitstream-vera
   ttf-dejavu
   ttf-droid
+  ttf-envy-code-r
   ttf-font-awesome
   ttf-inconsolata
   ttf-monaco
