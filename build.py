@@ -36,7 +36,7 @@ DATABASE = 'noswap.db.tar.xz'
 USERGROUP = 'jreese:jreese'
 
 CPUARCH = bt('uname -m')
-PKGREGEX = "'.*/{0}-\(latest\|.?[0-9]\).*\.pkg\.tar\.xz.*'"
+PKGREGEX = "'.*/{0}-\(preview\|latest\|.?[0-9]\).*\.pkg\.tar\.xz.*'"
 
 class ChrootBuild(object):
     def __init__(self, root=None, fresh=False, clean=False):
