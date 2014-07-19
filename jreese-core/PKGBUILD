@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=38
+pkgrel=39
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -35,7 +35,10 @@ depends=(
   hub-git
   inetutils
   iotop
+  ipython
+  ipython2
   irssi
+  jnettop
   keybase
   keychain
   lessc
@@ -96,13 +99,9 @@ md5sums=(
   )
 install=jreese-core.install
 
-build() {
+package() {
   install -Dm644 $srcdir/${source[0]} $pkgdir/usr/share/kbd/keymaps/i386/dvorak/${source[0]}
   install -Dm644 $srcdir/${source[1]} $pkgdir/etc/modprobe.d/${source[1]}
-}
-
-check() {
-  true
 }
 
 # vim:set ts=2 sw=2 et:
