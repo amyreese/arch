@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=33
+pkgrel=34
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -74,6 +74,8 @@ depends=(
 
   # preferred apps
   chromium
+  chromium-libpdf
+  chromium-pepper-flash
   dropbox
   firefox
   gimp
