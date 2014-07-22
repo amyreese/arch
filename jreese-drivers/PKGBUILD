@@ -2,13 +2,14 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-drivers
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 epoch=0
-pkgdesc="Generic, open source graphics card drivers"
+pkgdesc="Drivers for wifi, graphics cards, etc"
 arch=('any')
 url="http://github.com/jreese/arch"
 license=('MIT')
 depends=(
+  broadcom-wl
   xf86-video-intel
   xf86-video-nouveau
   )
