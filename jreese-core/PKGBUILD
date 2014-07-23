@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=40
+pkgrel=41
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -32,6 +32,7 @@ depends=(
   git
   gnu-netcat
   grub
+  gti
   htop
   hub-git
   inetutils
@@ -71,6 +72,7 @@ depends=(
   renameutils
   rsync
   screen
+  sl
   start-stop-daemon
   subversion
   sudo
