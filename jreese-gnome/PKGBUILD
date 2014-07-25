@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=35
+pkgrel=36
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -50,7 +50,6 @@ depends=(
   gnome-terminal
   gnome-themes-standard
   gnome-user-docs
-  gnome-user-share
   grilo-plugins
   gucharmap
   mousetweaks
