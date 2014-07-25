@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=34
+pkgrel=35
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -29,6 +29,8 @@ depends=(
   evince
   gdm
   gnome-backgrounds
+  gnome-calculator
+  gnome-contacts
   gnome-control-center
   gnome-desktop
   gnome-dictionary
@@ -48,9 +50,14 @@ depends=(
   gnome-terminal
   gnome-themes-standard
   gnome-user-docs
+  gnome-user-share
+  grilo-plugins
+  gucharmap
   mousetweaks
   mutter
   nautilus
+  sushi
+  xdg-user-dirs-gtk
   yelp
 
   # gnome-extra group
@@ -63,6 +70,7 @@ depends=(
   seahorse
 
   # gnome apps
+  dconf
   gconf-editor
   gnome-power-manager
   gnome-search-tool
@@ -76,6 +84,7 @@ depends=(
   chromium
   chromium-libpdf
   chromium-pepper-flash
+  communi-desktop-git
   dropbox
   firefox
   gimp
