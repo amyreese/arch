@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer for reflector.service
+
+[Timer]
+OnCalendar=weekly
+AccuracySec=60min
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target

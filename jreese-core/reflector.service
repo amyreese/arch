@@ -1,0 +1,10 @@
+[Unit]
+Description=Pacman mirrorlist update
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/reflector --verbose --country 'United States' --protocol http --latest 50 --number 6 --sort rate --save /etc/pacman.d/mirrorlist
+
+[Install]
+WantedBy=multi-user.target

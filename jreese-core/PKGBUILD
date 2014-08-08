@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=42
+pkgrel=43
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -70,6 +70,7 @@ depends=(
   python-pip
   python-sh
   python-virtualenv
+  reflector
   renameutils
   rsync
   screen
@@ -96,16 +97,22 @@ conflicts=(
 source=(
   dvorak-jreese.map.gz
   blacklist-pcspkr.conf
+  reflector.service
+  reflector.timer
   )
-md5sums=(
-  '7fd7bfd8fb1f93372f7c78c7c1d43f2f'
-  '3866086e6af5e3528a66eff492f2f4dd'
+sha256sums=(
+  '0ee6bfc9ddbbe7161df139e388a60bc4db95fc2438b64c82e7a051a9974cace1'
+  '45fcf00e3f7177c42f18c7b5bf2ed2074c11d440404705e082a5f9eea52d30b8'
+  '3dbcf11921043a24a6690bfe38b939188d0c31bac571987b2dd632b00af8b5f2'
+  '9e081aedafcf49c90b0398f3f7648ff90837ac36e976a638e341865977ad5521'
   )
 install=jreese-core.install
 
 package() {
   install -Dm644 $srcdir/${source[0]} $pkgdir/usr/share/kbd/keymaps/i386/dvorak/${source[0]}
   install -Dm644 $srcdir/${source[1]} $pkgdir/etc/modprobe.d/${source[1]}
+  install -Dm644 $srcdir/${source[2]} $pkgdir/usr/lib/systemd/system/${source[2]}
+  install -Dm644 $srcdir/${source[3]} $pkgdir/usr/lib/systemd/system/${source[3]}
 }
 
 # vim:set ts=2 sw=2 et:
