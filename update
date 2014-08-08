@@ -67,6 +67,10 @@ else
 	counter=0
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
+        if [ -f "$pkg/.forked" ]; then
+            continue
+        fi
+
 		echo -n "."
 		updatepkgbuild $pkg &
 
