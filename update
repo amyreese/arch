@@ -52,6 +52,13 @@ updatepkgbuild() {
 	fi
 }
 
+ignore_forked="yes"
+if [ "$1" = "-f" ]; then
+    echo "Including packages with .forked"
+    ignore_forked="no"
+    shift
+fi
+
 if [[ $# > 0 ]]; then
 	echo "Importing PKGBUILDs from AUR..."
 
@@ -67,7 +74,7 @@ else
 	counter=0
 
 	for pkg in $(ls */PKGBUILD | grep -v jreese | sed 's@/.*$@@'); do
-        if [ -f "$pkg/.forked" ]; then
+        if [ -f "$pkg/.forked" ] && [ "$ignore_forked" = "yes" ]; then
             continue
         fi
 
