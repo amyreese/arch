@@ -6,17 +6,23 @@
 # For improvements/fixes to this package, please send a pull request:
 # https://github.com/jreese/arch
 
+_lineheight=1.2
+
+_default_style="a=0&g=0&i=0&l=0&zero=0&asterisk=0&presets=input&${_lineheight}"
+_envy_code_r_style="a=0&g=ss&i=topserif&l=topserif&zero=slash&asterisk=0&presets=envy&${_lineheight}"
+_style=$_envy_code_r_style
+
 pkgname=ttf-input
 pkgver=20140812
-pkgrel=1
+pkgrel=2
 pkgdesc="A flexible system of fonts designed specifically for code"
 arch=('any')
 url="http://input.fontbureau.com/"
 license=('custom')
 depends=('fontconfig' 'xorg-fonts-encodings' 'xorg-font-utils')
 install=ttf-input.install
-source=("input-font.zip::http://input.fontbureau.com/build/?fontSelection=whole&a=0&g=0&i=0&l=0&zero=0&asterisk=0&presets=input&lineHeight=1&accept=I+do&email=")
-sha256sums=('07e6ad61517b268f92b2d9e86d003ed7bed23fcf218089ad0ca591bff9bbd8a2')
+source=("input-font.zip::http://input.fontbureau.com/build/?fontSelection=whole&${_style}&accept=I+do&email=")
+sha256sums=('SKIP')
 
 package() {
     for f in $(find . -name '*.ttf'); do
