@@ -1,6 +1,7 @@
-# Maintainer: Wijnand Modderman-Lenstra <maze@maze.io>
+# Maintainer: David Mason <djmason@gmail.com>
+# Contributor: Wijnand Modderman-Lenstra <maze@maze.io>
 pkgname=bluejeans
-pkgver=2.7.181.8
+pkgver=2.7.236.8
 pkgrel=1
 pkgdesc="BlueJeans browser plugin"
 arch=('x86_64')
@@ -13,9 +14,9 @@ makedepends=(dpkg)
 source=(
     https://swdl.bluejeans.com/skinny/rbjnplugin_${pkgver}-1_amd64.deb
 )
-md5sums=('SKIP')
-sha1sums=('SKIP')
-backup=('usr/lib/mozilla/plugins/.bjnplugin/config/config.xml')
+md5sums=('70990c79967f8243e554f03ee02688a8')
+sha1sums=('abd02758e5facfe5b13cf8a207f8f0927c422967')
+backup=('usr/lib/mozilla/plugins/.rbjnplugin/config/config.xml')
 
 package() {
     dpkg -x rbjnplugin_${pkgver}-${pkgrel}_amd64.deb "${pkgdir}"
