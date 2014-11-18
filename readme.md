@@ -2,7 +2,7 @@ Noswap Arch Repo
 ================
 
 This repository contains package builds for my projects and for managing my
-machines.  These packages are hosted at http://pub.noswap.com/arch/ and are
+machines.  These packages are hosted at https://noswap.com/pub/arch/ and are
 available for anyone to install and use.
 
 There are three ways to use the packages contained in this project.  You can
@@ -17,14 +17,14 @@ Repository
 
 You can add the repository to your `pacman.conf` with the following commands:
 
-    $ wget http://pub.noswap.com/arch/noswap-repo.sh
+    $ wget https://noswap.com/pub/arch/noswap-repo.sh
     $ sudo sh noswap-repo.sh
 
 If you prefer, you can add the repository by hand by adding the following
 lines to `/etc/pacman.conf`:
 
     [noswap]
-    Server = http://pub.noswap.com/arch/
+    Server = https://noswap.com/pub/arch/
     
 Make sure that if you manually add the repository, you also import my GPG key:
 

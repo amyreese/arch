@@ -9,7 +9,7 @@ else
 	echo "adding noswap repo"
 	echo >> $pac
 	echo "[noswap]" >> $pac
-	echo "Server = http://pub.noswap.com/arch" >> $pac
+	echo "Server = https://noswap.com/pub/arch" >> $pac
 
 fi
 
