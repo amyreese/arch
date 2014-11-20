@@ -238,6 +238,7 @@ def resolve_dependencies(packages):
 
 if __name__ == '__main__':
 
+    os.nice(2)
     os.putenv('INFAKEROOT', '1')
 
     parser = argparse.ArgumentParser(description='Build packages')
