@@ -65,7 +65,8 @@ class ChrootBuild(object):
             try:
                 sh('sudo umount', abspath(mount), '> /dev/null 2>&1')
             except:
-                pass
+                log.exception('unmount failed')
+                raise
 
     def __enter__(self):
         log.debug('__enter__')
