@@ -30,37 +30,37 @@ def bt(*command, **kwargs):
     return out.strip().decode()
 
 BASE = os.getcwd()
-LOCALREPO = '.repo/'
+ARCHROOT = join(BASE, '.archroot/')
+ARCHROOT_LOCK = join(BASE, '.archroot.lock')
+LOCALREPO = join(BASE, '.repo/')
 REMOTEREPO = 'liara:/home/jreese/pub/arch/'
 DATABASE = 'noswap.db.tar.xz'
 USERGROUP = 'jreese:jreese'
+
+print((BASE, ARCHROOT, LOCALREPO))
 
 CPUARCH = bt('uname -m')
 PKGREGEX = "'.*/{0}-\(preview\|latest\|.?[0-9]\).*\.pkg\.tar\.xz.*'"
 
 class ChrootBuild(object):
-    def __init__(self, root=None, fresh=False, clean=False):
+    def __init__(self, fresh=False, clean=False):
         log.debug('__init__')
 
-        if not root:
-            root = '.archroot'
-
-        self.root = root
-        self.pkgroot = join(self.root, 'packages')
+        self.pkgroot = join(ARCHROOT, 'packages')
         self.pkgpath = '/packages'
         self.fresh = fresh
         self.cleanup = clean
 
-        self.rsh = partial(sh, 'sudo', 'arch-chroot', self.root)
-        self.rbt = partial(bt, 'sudo', 'arch-chroot', self.root)
+        self.rsh = partial(sh, 'sudo', 'arch-chroot', ARCHROOT)
+        self.rbt = partial(bt, 'sudo', 'arch-chroot', ARCHROOT)
 
         # make sure the chroot isn't already mounted
         for mount in (
-            join(self.root, 'sys'),
-            join(self.root, 'proc'),
-            join(self.root, 'dev', 'pts'),
-            join(self.root, 'dev'),
-            join(self.root),
+            join(ARCHROOT, 'sys'),
+            join(ARCHROOT, 'proc'),
+            join(ARCHROOT, 'dev', 'pts'),
+            join(ARCHROOT, 'dev'),
+            #join(ARCHROOT),
         ):
             try:
                 sh('sudo umount', abspath(mount), '> /dev/null 2>&1')
@@ -80,12 +80,12 @@ class ChrootBuild(object):
             self.clean()
 
     def init(self):
-        log.debug('Initializing archroot %s', self.root)
+        log.debug('Initializing archroot %s', ARCHROOT)
 
-        if not exists(self.root):
-            log.info('Creating new archroot in %s', self.root)
+        if not exists(ARCHROOT):
+            log.info('Creating new archroot in %s', ARCHROOT)
             try:
-                sudo('mkarchroot', self.root, 'base', 'base-devel')
+                sudo('mkarchroot', ARCHROOT, 'base', 'base-devel')
             except:
                 log.exception('mkarchroot returned non-zero, ignoring')
 
@@ -103,10 +103,10 @@ class ChrootBuild(object):
             self.rbt('sh', join(self.pkgpath, script))
 
     def clean(self):
-        if exists(self.root):
-            log.info('Cleaning up archroot %s', self.root)
-            sudo('rm -r', self.root)
-            sudo('rm', self.root + '.lock')
+        if exists(ARCHROOT):
+            log.info('Cleaning up archroot %s', ARCHROOT)
+            sudo('rm -r', ARCHROOT)
+            sudo('rm', ARCHROOT_LOCK)
 
     def build(self, package):
         if not isdir(package):
@@ -149,7 +149,7 @@ def build_packages(args, packages):
     completed = set()
     failed = set()
 
-    with ChrootBuild(root=args.root, fresh=args.fresh, clean=args.clean) as chroot:
+    with ChrootBuild(fresh=args.fresh, clean=args.clean) as chroot:
         for package in packages:
             try:
                 os.chdir(BASE)
@@ -244,8 +244,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Build packages')
     parser.add_argument('--debug', action='store_true', default=False,
                         help='debug output')
-    parser.add_argument('--root', type=str, default=None,
-                        help='root directory of existing archroot')
     parser.add_argument('--fresh', action='store_true', default=False,
                         help='force creating a fresh archroot')
     parser.add_argument('--clean', action='store_true', default=False,
