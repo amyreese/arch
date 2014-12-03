@@ -5,5 +5,5 @@ remoterepo="liara:/home/jreese/pub/arch/"
 database="noswap.db.tar.xz"
 
 echo "Syncing local repository from remote repository..."
-rsync -avz --delete $remoterepo $localrepo
+rsync -avz --delete --progress $remoterepo $localrepo
 
