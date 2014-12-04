@@ -121,6 +121,8 @@ class ChrootBuild(object):
             self.rbt('sh', join(self.pkgpath, script))
 
     def clean(self):
+        self.unmount()
+
         if exists(ARCHROOT):
             log.info('Cleaning up archroot %s', ARCHROOT)
 
