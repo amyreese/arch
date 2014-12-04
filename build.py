@@ -19,28 +19,30 @@ log = logging.getLogger(__name__)
 log.addHandler(ch)
 log.setLevel(logging.INFO)
 
+
 def sh(*command, **kwargs):
     log.debug('shell: %s', ' '.join(command))
     return subprocess.check_call(' '.join(command), shell=True, **kwargs)
 sudo = partial(sh, 'sudo')
+
 
 def bt(*command, **kwargs):
     log.debug('shell: %s', ' '.join(command))
     out = subprocess.check_output(' '.join(command), shell=True, **kwargs)
     return out.strip().decode()
 
+
 BASE = os.getcwd()
-ARCHROOT = join(BASE, '.archroot/')
+ARCHROOT = join(BASE, '.archroot')
 ARCHROOT_LOCK = join(BASE, '.archroot.lock')
 LOCALREPO = join(BASE, '.repo/')
 REMOTEREPO = 'liara:/home/jreese/pub/arch/'
 DATABASE = 'noswap.db.tar.xz'
 USERGROUP = 'jreese:jreese'
 
-print((BASE, ARCHROOT, LOCALREPO))
-
 CPUARCH = bt('uname -m')
 PKGREGEX = "'.*/{0}-\(preview\|latest\|.?[0-9]\).*\.pkg\.tar\.xz.*'"
+
 
 class ChrootBuild(object):
     def __init__(self, fresh=False, clean=False):
@@ -54,22 +56,9 @@ class ChrootBuild(object):
         self.rsh = partial(sh, 'sudo', 'arch-chroot', ARCHROOT)
         self.rbt = partial(bt, 'sudo', 'arch-chroot', ARCHROOT)
 
-        # make sure the chroot isn't already mounted
-        for mount in (
-            join(ARCHROOT, 'sys'),
-            join(ARCHROOT, 'proc'),
-            join(ARCHROOT, 'dev', 'pts'),
-            join(ARCHROOT, 'dev'),
-            #join(ARCHROOT),
-        ):
-            try:
-                sh('sudo umount', abspath(mount), '> /dev/null 2>&1')
-            except:
-                log.exception('unmount failed')
-                raise
-
     def __enter__(self):
         log.debug('__enter__')
+        self.unmount()
         if self.fresh:
             self.clean()
         self.init()
@@ -77,8 +66,36 @@ class ChrootBuild(object):
 
     def __exit__(self, exc_type, exc_value, traceback):
         log.debug('__exit__')
+        self.unmount()
         if self.cleanup:
             self.clean()
+
+    def unmount(self):
+        log.info('checking mounts')
+
+        mount_list = bt('mount').split('\n')
+        log.debug('current mounts:\n%s\n', '\n'.join(mount_list))
+
+        # make sure the chroot isn't already mounted
+        for mount in (
+            join(ARCHROOT, 'sys'),
+            join(ARCHROOT, 'proc'),
+            join(ARCHROOT, 'dev', 'pts'),
+            join(ARCHROOT, 'dev'),
+            ARCHROOT,
+        ):
+            for mount_entry in mount_list:
+                if mount in mount_entry:
+                    log.info('mount point %s found, unmounting', mount)
+
+                    try:
+                        sh('sudo umount', mount)
+                        break
+
+                    except:
+                        log.error('umount failed, listing lsof for %s:', mount)
+                        sudo('lsof', mount, '| grep', mount)
+                        raise
 
     def init(self):
         log.debug('Initializing archroot %s', ARCHROOT)
@@ -106,6 +123,7 @@ class ChrootBuild(object):
     def clean(self):
         if exists(ARCHROOT):
             log.info('Cleaning up archroot %s', ARCHROOT)
+
             sudo('rm -r', ARCHROOT)
             sudo('rm', ARCHROOT_LOCK)
 
@@ -187,6 +205,7 @@ def build_packages(args, packages):
 
     return completed, failed
 
+
 package_dep_re = re.compile(r'^(.*?)(?:[<>=].*)?$')
 @lru_cache()
 def package_deps(package):
@@ -201,6 +220,7 @@ def package_deps(package):
         return dependencies
     except:
         return []
+
 
 def resolve_dependencies(packages):
     queue = list(packages)
@@ -237,8 +257,7 @@ def resolve_dependencies(packages):
     return packages
 
 
-if __name__ == '__main__':
-
+def main():
     os.nice(2)
     os.putenv('INFAKEROOT', '1')
 
@@ -259,40 +278,52 @@ if __name__ == '__main__':
     if args.debug:
         log.setLevel(logging.DEBUG)
 
-    if os.getuid():
-        log.debug('Requesting sudo access')
-        sh('sudo true')
+    try:
+        if os.getuid():
+            log.debug('Requesting sudo access')
+            sh('sudo true')
 
-    log.debug('Syncing local repository from remote')
-    sh('rsync --progress -avz --delete', REMOTEREPO, LOCALREPO)
+        log.debug('Syncing local repository from remote')
+        sh('rsync --progress -avz --delete', REMOTEREPO, LOCALREPO)
 
-    finished = set()
-    failed = set()
-    waiting = resolve_dependencies(set(args.packages))
+        finished = set()
+        failed = set()
+        waiting = resolve_dependencies(set(args.packages))
 
-    retry = 0
-    while ((args.retry is None and retry <= len(waiting))
-            or (args.retry is not None and retry <= args.retry)):
-        retry += 1
+        retry = 0
+        while ((args.retry is None and retry <= len(waiting))
+                or (args.retry is not None and retry <= args.retry)):
+            retry += 1
 
-        completed, failed = build_packages(args, waiting)
-        finished |= completed
-        for package in completed:
-            waiting.remove(package)
+            completed, failed = build_packages(args, waiting)
+            finished |= completed
+            for package in completed:
+                waiting.remove(package)
 
-        log.info('--- Pass %d ---', retry)
+            log.info('--- Pass %d ---', retry)
 
-        if completed:
-            log.info('Completed: %s', ', '.join(completed))
+            if completed:
+                log.info('Completed: %s', ', '.join(completed))
+            if failed:
+                log.info('Failed: %s', ', '.join(failed))
+
+            args.fresh = False
+
+        if args.packages:
+            log.info('--- Results ---')
+        if finished:
+            log.info('Builds completed: %s', ', '.join(finished))
         if failed:
-            log.info('Failed: %s', ', '.join(failed))
+            log.info('Builds failed: %s', ', '.join(failed))
+            sys.exit(-1)
 
-        args.fresh = False
+    except Exception as e:
+        if args.debug:
+            log.exception('Build generated exception')
+        else:
+            log.error(e)
 
-    if args.packages:
-        log.info('--- Results ---')
-    if finished:
-        log.info('Builds completed: %s', ', '.join(finished))
-    if failed:
-        log.info('Builds failed: %s', ', '.join(failed))
-        sys.exit(-1)
+
+if __name__ == '__main__':
+    main()
+
