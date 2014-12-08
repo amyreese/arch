@@ -1,7 +1,6 @@
 post_install() {
 	grep '^/bin/zsh' /etc/shells || echo '/bin/zsh' >> /etc/shells
-    systemctl enable reflector.service
-    systemctl enable reflector.timer
+    systemctl enable haveged
 }
 
 post_upgrade() {
