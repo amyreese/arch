@@ -49,6 +49,7 @@ tWgrfo+yag==
 =WVs6
 -----END PGP PUBLIC KEY BLOCK-----
 EOM
+pacman-key --lsign-key D53EA311DE6184DC
 
 sleep 1
 
