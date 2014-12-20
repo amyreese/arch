@@ -8,9 +8,9 @@
 # Contributor: Praekon <praekon@googlemail.com>
 
 pkgname=plex-media-server-plexpass
-pkgver=0.9.11.4.739
-_pkgsum=a4e710f
-pkgrel=1
+pkgver=0.9.11.6.800
+_pkgsum=831ffad
+pkgrel=2
 pkgdesc='Plex Media Server (PlexPass version)'
 arch=('i686' 'x86_64')
 url='https://plex.tv/'
@@ -26,15 +26,16 @@ source=('plexmediaserver.conf.d'
         'terms.txt')
 sha256sums=('a82829854ab8e780f7686a9e65d36c8cf6900d6c3471176e0f2aae8f5a024a19'
             'ea50f866c7aa6b0a9e71d830887fb081b70f34f0b4b36f7cd7a69ab48b81d371'
-            'b55368f164da76696215153a7a2d880097f1e3ccdba9faf5a3690706407eb7bb'
+            '7e5e5e667739bd35f16b7de5edd5846b0ed555a0f61a17aa65e5d623e878f25d'
             '7bb97271eb2dc5d1dcb95f9763f505970d234df17f1b8d79b467b9020257915a')
 
+
 if [[ $CARCH == x86_64 ]]; then
-  source+=("https://downloads.plex.tv/plex-media-server/${pkgver}-${_pkgsum}/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm")
-  sha256sums+=('6466e67868a7e0422143811937cbf2abb96fa2698b1d73ace58b519cc78d8288')
+  source+=("http://nightlies.plexapp.com/directdl/plex-media-server/dist-ninja/0.9.11.6.800-831ffad/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm")
+  sha256sums+=('a09c31a09ad7b4e431f50a01c96efb31bdd99f3335d3ee45aebd810eaceb8480')
 else
-  source+=("https://downloads.plex.tv/plex-media-server/${pkgver}-${_pkgsum}/plexmediaserver-${pkgver}-${_pkgsum}.i386.rpm")
-  sha256sums+=('4af7d2faed8b7ebd6786b01f409cf0089aeec3b95cb3db3d3acc5fd10b940384')
+  source+=("http://nightlies.plexapp.com/directdl/plex-media-server/dist-ninja/0.9.11.6.800-831ffad/plexmediaserver-${pkgver}-${_pkgsum}.i386.rpm")
+  sha256sums+=('e20b46a408e01b0acea7193fd25367d0401606da90318716dd1c218218b5a8ef')
 fi
 
 package() {
