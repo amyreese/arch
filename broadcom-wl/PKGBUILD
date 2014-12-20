@@ -7,7 +7,7 @@ _kernel_version=$(pacman -Q linux | awk '{print $2}')
 _kernel_pkgver=$(echo $_kernel_version | sed -e "s/-/_/")
 
 pkgname=broadcom-wl
-pkgver=6.30.223.248
+pkgver=6.30.223.248_3.17.6_1
 pkgrel=1
 pkgdesc='Broadcom 802.11abgn hybrid Linux networking device driver'
 url='http://www.broadcom.com/support/802.11/linux_sta.php'
