@@ -141,7 +141,7 @@ class ChrootBuild(object):
         runpath = join(self.pkgpath, 'run.sh')
         pkgroot = join(self.pkgroot, package)
         pkgpath = join(self.pkgpath, package)
-        command = 'cd {0} && makepkg --asroot -s --noconfirm'.format(pkgpath)
+        command = 'cd {0} && makepkg -s --noconfirm'.format(pkgpath)
 
         try:
             sh('grep arch=', join(package, 'PKGBUILD'), '| grep -q any')
@@ -158,7 +158,8 @@ class ChrootBuild(object):
         sudo('mv', 'run.sh', runroot)
 
         log.debug('Building: `%s`', command)
-        self.rsh('sh', runpath)
+        sudo('chown -R 1000:1000', pkgroot)
+        self.rsh('su - arch -c "sh {0}"'.format(runpath))
 
         pkgfile = bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
         log.debug('Built package file "%s"', pkgfile)
