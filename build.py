@@ -107,8 +107,11 @@ class ChrootBuild(object):
             except:
                 log.exception('mkarchroot returned non-zero, ignoring')
 
+            log.info('Enabling sudo access for wheel')
+            self.rsh('sed -i -e', "'s.# %wheel ALL=(ALL) NOPASSWD: ALL.%wheel ALL=(ALL) NOPASSWD: ALL.'", '/etc/sudoers')
+
             log.info('Creating arch user with uid 1000')
-            self.rsh('useradd -m -u 1000 -U arch')
+            self.rsh('useradd -m -u 1000 -U arch -G wheel')
 
         if exists(self.pkgroot):
             log.debug('Cleaning old packages from %s', self.pkgroot)
