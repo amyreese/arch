@@ -2,6 +2,7 @@
 .AURINFO
 
 # build artifacts
+status.*
 .archroot/
 .archroot.lock
 pkg/
