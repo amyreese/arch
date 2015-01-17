@@ -138,7 +138,7 @@ class ChrootBuild(object):
         sh('chmod -R a+rX', package)
 
         log.debug('Updating pacman')
-        self.rsh('pacman -Sy')
+        self.rsh('pacman -Syu --noconfirm')
 
         runroot = join(self.pkgroot, 'run.sh')
         runpath = join(self.pkgpath, 'run.sh')
