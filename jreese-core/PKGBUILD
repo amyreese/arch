@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=50
+pkgrel=51
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -33,6 +33,7 @@ depends=(
   elinks
   expac
   fail2ban
+  duo_unix
   gdb
   git
   gnu-netcat
@@ -93,7 +94,9 @@ depends=(
   unrar
   unzip
   vim
+  weechat
   wget
+  wtf
   zip
   zsh
   )
