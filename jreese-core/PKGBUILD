@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=48
+pkgrel=49
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -55,7 +55,6 @@ depends=(
   mosh
   net-tools
   networkmanager
-  networkmanager-openconnect
   nmap
   nodejs
   nodejs-less
