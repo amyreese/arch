@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=40
+pkgrel=41
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -23,9 +23,9 @@ depends=(
   xf86-input-mtrack-git
 
   # gnome group
+  adwaita-icon-theme
   baobab
   eog
-  eog-plugins
   evince
   gdm
   gnome-backgrounds
@@ -56,10 +56,12 @@ depends=(
   mutter
   nautilus
   sushi
+  tracker
   xdg-user-dirs-gtk
   yelp
 
   # gnome-extra group
+  bijiben
   brasero
   file-roller
   gedit
@@ -68,9 +70,12 @@ depends=(
   nautilus-sendto
   seahorse
 
+  eog-plugins
+
   # gnome apps
   dconf
   gconf-editor
+  gimp
   gnome-power-manager
   gnome-search-tool
   gnome-tweak-tool
@@ -82,10 +87,10 @@ depends=(
 
   # preferred apps
   chromium
+  chromium-pepper-flash
   communi-desktop-git
   dropbox
   firefox
-  gimp
   spotify
   sublime-text-nightly
   synapse
