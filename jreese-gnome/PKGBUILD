@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-gnome
 pkgver=1.0
-pkgrel=39
+pkgrel=40
 epoch=0
 pkgdesc="Dependencies for a basic Gnome desktop environment"
 arch=('any')
@@ -76,6 +76,7 @@ depends=(
   gnome-tweak-tool
   gparted
   gvfs-smb
+  hexchat
   transmission-gtk
   xchat
 
@@ -93,9 +94,8 @@ depends=(
 
   # other packages
   faience-icon-theme
-  ffmpeg-spotify
+  ffmpeg-compat
   flashplugin
-  mediterraneannight-theme-git
   nautilus-dropbox
   synergy
 
