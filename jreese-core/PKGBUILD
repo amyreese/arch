@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=46
+pkgrel=47
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -15,6 +15,7 @@ depends=(
   ack
   alsa-utils
   archiso
+  aria2
   ca-certificates
   cdrkit
   cmake
@@ -46,15 +47,17 @@ depends=(
   jnettop
   keybase
   keychain
-  lessc
   lsb-release
   lsof
   mercurial
   mlocate
   mosh
   net-tools
+  networkmanager
+  networkmanager-openconnect
   nmap
   nodejs
+  nodejs-less
   ntp
   openssh
   p7zip
@@ -81,6 +84,7 @@ depends=(
   start-stop-daemon
   subversion
   sudo
+  swig
   tarsnap
   tmux
   transmission-cli
