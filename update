@@ -82,7 +82,7 @@ else
 		updatepkgbuild $pkg &
 
 		counter=$((counter + 1))
-		if [[ $counter == 3 ]]
+		if [[ $counter == 5 ]]
 		then
 			counter=0
 			wait
