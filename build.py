@@ -78,6 +78,7 @@ class ChrootBuild(object):
 
         # make sure the chroot isn't already mounted
         for mount in (
+            join(ARCHROOT, 'tmp'),
             join(ARCHROOT, 'sys'),
             join(ARCHROOT, 'proc'),
             join(ARCHROOT, 'dev', 'pts'),
@@ -89,7 +90,7 @@ class ChrootBuild(object):
                     log.info('mount point %s found, unmounting', mount)
 
                     try:
-                        sh('sudo umount', mount)
+                        sh('sudo umount -Rl', mount)
                         break
 
                     except:
