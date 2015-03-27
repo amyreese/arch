@@ -6,7 +6,7 @@ pkgname=firefox-beta
 pkgver=37.0rc2
 _major=${pkgver/rc*}
 _build=${pkgver/*rc}
-pkgrel=1
+pkgrel=2
 pkgdesc="Standalone web browser from mozilla.org - Beta"
 arch=('i686' 'x86_64')
 url="https://www.mozilla.org/en-US/firefox/channel/#beta"
@@ -22,14 +22,14 @@ optdepends=('gstreamer0.10-base: vorbis decoding, ogg demuxing'
             'networkmanager: Location detection via available WiFi networks')
 makedepends=('pacman>=4.2.0')
 conflicts=('firefox-beta-bin')
-provides=('firefox-beta-bin')
+replaces=('firefox-beta-bin')
 install=$pkgname.install
 source=("$pkgname.desktop"
         "$pkgname-safe.desktop")
 source_i686=("https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/$pkgver/linux-i686/en-US/firefox-$pkgver.tar.bz2")
 source_x86_64=("https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/$pkgver/linux-x86_64/en-US/firefox-$pkgver.tar.bz2")
-md5sums=('13bd50c37f55a83539a680ce83162468'
-         'a85c53ccb2b78514f37833d288a20ba2')
+md5sums=('f7d82a1aac76f0bead4245fc1572eee1'
+         '6616cf32c69b50a126812334c8d65329')
 md5sums_i686=('faba7476e9624a1dde37ff7629380431')
 md5sums_x86_64=('765710c0930898ab09084b4f96186bb0')
 # RC
