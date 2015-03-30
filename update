@@ -12,6 +12,12 @@ updatepkgbuild() {
 
 	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
 
+    if [ -x "$pkg/PKGBUILD-update.sh" ]; then
+        pushd $pkg > /dev/null
+        ./PKGBUILD-update.sh
+        popd > /dev/null
+    fi
+
 	if $(git status -s | grep -q " $pkgbuild"); then
 		# modified pkgbuild
 
