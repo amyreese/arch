@@ -3,10 +3,10 @@
 # Contributors: Achilleas Pipinellis, speed145a, Schnouki
 
 pkgname=firefox-beta
-pkgver=37.0rc2
+pkgver=38.0b1
 _major=${pkgver/rc*}
 _build=${pkgver/*rc}
-pkgrel=2
+pkgrel=1
 pkgdesc="Standalone web browser from mozilla.org - Beta"
 arch=('i686' 'x86_64')
 url="https://www.mozilla.org/en-US/firefox/channel/#beta"
@@ -30,8 +30,8 @@ source_i686=("https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/$pkgver/l
 source_x86_64=("https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/$pkgver/linux-x86_64/en-US/firefox-$pkgver.tar.bz2")
 md5sums=('f7d82a1aac76f0bead4245fc1572eee1'
          '6616cf32c69b50a126812334c8d65329')
-md5sums_i686=('faba7476e9624a1dde37ff7629380431')
-md5sums_x86_64=('765710c0930898ab09084b4f96186bb0')
+md5sums_i686=('7353715b3ed5509a58ecaa45978ce0aa')
+md5sums_x86_64=('ed3c139a702b4ff3333f76917498c984')
 # RC
 if [[ $_build = ? ]]; then
   source_i686=("https://ftp.mozilla.org/pub/mozilla.org/firefox/candidates/$_major-candidates/build$_build/linux-i686/en-US/firefox-$_major.tar.bz2")
