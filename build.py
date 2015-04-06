@@ -163,7 +163,7 @@ class ChrootBuild(object):
 
         log.debug('Building: `%s`', command)
         sudo('chown -R 1000:1000', pkgroot)
-        self.rsh('su - arch -c "sh {0}"'.format(runpath))
+        self.rsh('su - arch -c "bash -l {0}"'.format(runpath))
 
         pkgfile = bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
         log.debug('Built package file "%s"', pkgfile)
