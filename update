@@ -35,8 +35,8 @@ updatepkgbuild() {
 				echo "$pkg : $oldver => $newver" >> $statusfile
 			else
 				# older pkgver, revert it
-				#echo "$pkg : $oldver => $newver (ignoring)" >> $statusfile
-				git checkout -f $pkgbuild >/dev/null 2>&1
+				echo "$pkg : $oldver => $newver (ignoring)" >> $statusfile
+				#git checkout -f $pkgbuild >/dev/null 2>&1
 			fi
 
 		elif $(git diff $pkgbuild | grep -q "^-pkgrel="); then
@@ -50,8 +50,8 @@ updatepkgbuild() {
 				echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel" >> $statusfile
 			else
 				# older pkgrel, revert it
-				#echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel (ignoring)" >> $statusfile
-				git checkout -f $pkgbuild >/dev/null 2>&1
+				echo "$pkg : $pkgver-$oldrel => $pkgver-$newrel (ignoring)" >> $statusfile
+				#git checkout -f $pkgbuild >/dev/null 2>&1
 			fi
 
 		fi
