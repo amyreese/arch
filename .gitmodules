@@ -4,3 +4,6 @@
 [submodule "dotlink"]
 	path = dotlink
 	url = ssh://aur@aur4.archlinux.org/dotlink.git
+[submodule "nib-git"]
+	path = nib-git
+	url = ssh://aur@aur4.archlinux.org/nib-git.git
