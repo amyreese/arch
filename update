@@ -10,7 +10,7 @@ updatepkgbuild() {
 	pkg=$1
 	pkgbuild=$pkg/PKGBUILD
 
-	curl -s https://aur.archlinux.org/packages/${pkg:0:2}/$pkg/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
+    curl -s https://aur4.archlinux.org/cgit/aur.git/snapshot/$pkg.tar.gz | /bin/tar -xz 2>/dev/null
 
     if [ -x "$pkg/PKGBUILD-update.sh" ]; then
         pushd $pkg > /dev/null
