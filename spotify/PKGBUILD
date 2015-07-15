@@ -1,11 +1,11 @@
-# Maintainer: Gadget3000 <gadget3000@msn.com>
+# Maintainer: Ashley Whetter <(firstname) @ awhetter.co.uk>
 # Contributor: Eothred <yngve.levinsen@gmail.com>
 
 pkgname=spotify
 pkgver=0.9.17.8
 _anotherpkgver=.gd06432d.31-1
 pkgrel=1
-pkgdesc="A proprietary peer-to-peer music streaming service"
+pkgdesc="A proprietary music streaming service"
 arch=('x86_64')
 license=('custom:"Copyright (c) 2006-2010 Spotify Ltd"')
 install=spotify.install
