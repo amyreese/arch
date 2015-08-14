@@ -3,25 +3,23 @@
 # Upstream URL: https://github.com/atom/atom
 #
 # For improvements/fixes to this package, please send a pull request:
-# https://github.com/sjug/arch
+# https://github.com/sjug/atom-editor
 
 pkgname=atom-editor
-pkgver=1.0.3
-pkgrel=1
+pkgver=1.0.7
+pkgrel=2
 pkgdesc='Chrome-based text editor from Github'
 arch=('x86_64' 'i686')
 url='https://github.com/atom/atom'
 license=('MIT')
 depends=('alsa-lib' 'gconf' 'gtk2' 'libgnome-keyring' 'libnotify' 'libxtst' 'nodejs' 'nss' 'python2')
+optdepends=('gvfs: file deletion support')
 makedepends=('git' 'npm')
 conflicts=('atom-editor-bin' 'atom-editor-git')
 source=("https://github.com/atom/atom/archive/v${pkgver}.tar.gz"
         'atom-python.patch')
-sha256sums=('4c5a63b02edf0f78291e2ff72358748d2808021a25336a0442830a972fb7f53d'
+sha256sums=('e7efb2df89379fe7f5092bdd40675c1f402fb80c7894b8c0d926e0690bfe4677'
             '9a1f4e2efa7c0b2fb053d27979b0231f75f1f0d928e06413ddebeadd5d7ed46c')
-
-_getref='17d6d9702bfa952249069257e6dbb6c270f16381'
-_gitbranch='master'
 
 prepare() {
   cd "atom-$pkgver"
@@ -41,8 +39,6 @@ build() {
   cd "$srcdir/atom-$pkgver"
 
   export PYTHON=python2
-  export JANKY_SHA1=$_gitref
-  export JANKY_BRANCH=$_gitbranch
   script/build --build-dir "$srcdir/atom-build"
 }
 

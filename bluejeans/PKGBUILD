@@ -1,7 +1,12 @@
-# Maintainer: David Mason <djmason@gmail.com>
+# Maintainer: James Bunton <jamesbunton@delx.net.au>
+# Contributor: David Mason <djmason@gmail.com>
 # Contributor: Wijnand Modderman-Lenstra <maze@maze.io>
+
+# The latest version can be found like this:
+# $ curl -s http://bluejeans.com/downloads | grep 'bjnplugin.*\.deb'
+
 pkgname=bluejeans
-pkgver=2.100.41.8
+pkgver=2.100.102.8
 pkgrel=1
 pkgdesc="BlueJeans browser plugin"
 arch=('x86_64')
@@ -10,13 +15,12 @@ license=('Proprietary')
 groups=()
 conflicts=(bjnplugin)
 depends=()
-makedepends=(dpkg)
 source=(
-    https://swdl.bluejeans.com/skinny/bjnplugin_${pkgver}-1_amd64.deb
+    https://swdl.bluejeans.com/skinny/rbjnplugin_${pkgver}-1_amd64.deb
 )
-sha256sums=('a1edc4f30530d52277324b05f28f2dbe4b6d75de1c04d70487d6c477e9097504')
-backup=('usr/lib/mozilla/plugins/.rbjnplugin/config/config.xml')
+sha1sums=('881b268b27723c5eaf7f8a9554e2a7af088003b7')
 
 package() {
-    dpkg -x bjnplugin_${pkgver}-${pkgrel}_amd64.deb "${pkgdir}"
+    ar x rbjnplugin_${pkgver}-${pkgrel}_amd64.deb "${pkgdir}"
+    tar xf data.tar.gz -C "${pkgdir}"
 }
