@@ -1,24 +1,25 @@
-From b806233fd55dfff2bbde0a0109b41837eee32a80 Mon Sep 17 00:00:00 2001
+From 122f184d946a007a7ba3ae68386a20f33ed62e1e Mon Sep 17 00:00:00 2001
 From: lotan <lotan@gmx.de>
-Date: Tue, 12 May 2015 14:47:15 +0200
-Subject: [PATCH] Support backing dev info, kernel 4.0.
+Date: Mon, 8 Jun 2015 14:20:06 +0200
+Subject: [PATCH] Support backing dev info kernel 4.0.
 
 ---
- open-vm-tools/modules/linux/vmhgfs/filesystem.c | 15 +++++++++++++++
+ open-vm-tools/modules/linux/vmhgfs/filesystem.c | 16 ++++++++++++++++
  open-vm-tools/modules/linux/vmhgfs/module.h     |  4 ++++
  open-vm-tools/modules/linux/vmhgfs/super.c      |  3 +++
- 3 files changed, 22 insertions(+)
+ 3 files changed, 23 insertions(+)
 
 diff --git a/open-vm-tools/modules/linux/vmhgfs/filesystem.c b/open-vm-tools/modules/linux/vmhgfs/filesystem.c
-index 33c4c56..5b458e1 100644
+index 10dd8ab..3148091 100644
 --- a/open-vm-tools/modules/linux/vmhgfs/filesystem.c
 +++ b/open-vm-tools/modules/linux/vmhgfs/filesystem.c
-@@ -386,8 +386,20 @@ HgfsReadSuper(struct super_block *sb, // OUT: Superblock object
+@@ -398,8 +398,21 @@ HgfsReadSuper(struct super_block *sb, // OUT: Superblock object
        return PTR_ERR(si);
     }
     HGFS_SET_SB_TO_COMMON(sb, si);
 +
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0)
++   memset(&si->bdi, 0, sizeof(si->bdi));
 +   result = bdi_setup_and_register(&si->bdi, "vmhgfs");
 +   if (result) {
 +      kfree(si->shareName);
@@ -34,7 +35,7 @@ index 33c4c56..5b458e1 100644
  
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 38)
     sb->s_d_op = &HgfsDentryOperations;
-@@ -427,6 +439,9 @@ HgfsReadSuper(struct super_block *sb, // OUT: Superblock object
+@@ -439,6 +452,9 @@ HgfsReadSuper(struct super_block *sb, // OUT: Superblock object
    exit:
     if (result) {
        dput(rootDentry);
@@ -45,7 +46,7 @@ index 33c4c56..5b458e1 100644
        kfree(si);
     }
 diff --git a/open-vm-tools/modules/linux/vmhgfs/module.h b/open-vm-tools/modules/linux/vmhgfs/module.h
-index 9c12332..e394b5f 100644
+index b673dc1..f3eeffc 100644
 --- a/open-vm-tools/modules/linux/vmhgfs/module.h
 +++ b/open-vm-tools/modules/linux/vmhgfs/module.h
 @@ -29,6 +29,7 @@
@@ -56,10 +57,10 @@ index 9c12332..e394b5f 100644
  #include "compat_fs.h"
  #include "compat_semaphore.h"
  #include "compat_slab.h"
-@@ -130,6 +131,9 @@ typedef struct HgfsSuperInfo {
-    uint32 ttl;                      /* Maximum dentry age (in ticks). */
+@@ -144,6 +145,9 @@ typedef struct HgfsSuperInfo {
     char *shareName;                 /* Mounted share name. */
     size_t shareNameLen;             /* To avoid repeated strlen() calls. */
+    uint32 mntFlags;                 /* HGFS mount flags */
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0)
 +   struct backing_dev_info bdi;
 +#endif

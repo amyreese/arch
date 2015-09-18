@@ -1,4 +1,6 @@
+# Maintainer: Dennis Fink <metalgamer@c3l.lu>
 # Maintainer: Tobias Frilling <tobias@frilling-online.de>
+
 pkgname=ttf-monaco
 pkgver=6.1
 pkgrel=2
