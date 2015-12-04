@@ -1,41 +1,49 @@
-# Maintainer: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
-
-pkgname=communi-desktop-git
-pkgver=20141123.498880f
-pkgrel=1
-pkgdesc="Communi for desktop"
-arch=('i686' 'x86_64')
-url="https://github.com/communi/communi-desktop"
-license=('GPL2')
-conflicts=('communi-desktop')
-replaces=('communi-desktop')
-depends=('libcommuni-git')
-makedepends=('gcc' 'git')
-
-_gitroot="git://github.com/communi/communi-desktop.git"
-_gitname=communi-desktop
-_gitbranch=master
-source=(${_gitname}::${_gitroot}#branch=${_gitbranch})
+# Maintainer: Stephen Brennan <smb196@case.edu>
+pkgname=communi-desktop-git # '-bzr', '-git', '-hg' or '-svn'
+pkgver=r2931.f15534d
+pkgrel=2
+pkgdesc="An IRC client for desktop environments."
+arch=('x86_64' 'i686')
+url=""
+license=('GPL')
+groups=()
+depends=('qt5-declarative' 'libcommuni-git')
+makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=()
+options=()
+install=
+source=('git://github.com/communi/communi-desktop.git')
+noextract=()
 md5sums=('SKIP')
 
+# Please refer to the 'USING VCS SOURCES' section of the PKGBUILD man page for
+# a description of each element in the source array.
+
 pkgver() {
-	cd ${_gitname}
-	echo "$(git log -1 --format="%cd" --date=short | tr -d '-').$(git log -1 --format="%h")"
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-	cd ${_gitname}
-	git submodule update --init
+	cd "$srcdir/${pkgname%-git}"
+        git submodule update --init
 }
 
 build() {
-	cd ${_gitname}
-
-	qmake
+	cd "$srcdir/${pkgname%-git}"
+        qmake
 	make
 }
 
+check() {
+	cd "$srcdir/${pkgname%-git}"
+	make -k check
+}
+
 package() {
-	cd ${_gitname}
-	make INSTALL_ROOT="${pkgdir}" install
+	cd "$srcdir/${pkgname%-git}"
+	make INSTALL_ROOT="$pkgdir/" install
 }

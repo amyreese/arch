@@ -1,35 +1,44 @@
-# Maintainer: Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
-
-pkgname=libcommuni-git
-pkgver=20141123.d7fe805
+# Maintainer: Stephen Brennan <smb196@case.edu>
+pkgname=libcommuni-git # '-bzr', '-git', '-hg' or '-svn'
+pkgver=r1647.780dcdc
 pkgrel=1
-pkgdesc="A cross-platform IRC framework written with Qt"
-arch=('i686' 'x86_64')
-url="https://github.com/communi/communi"
-license=('LGPL2.1')
-depends=('qt5-base')
-makedepends=('gcc' 'git')
-conflicts=('libcommuni')
-provides=('libcommuni')
-source=('git://github.com/communi/libcommuni.git')
+pkgdesc="A cross-platform IRC framework written with Qt."
+arch=('x86_64' 'i686')
+url="https://communi.github.io/"
+license=('custom')
+groups=()
+depends=('qt5-declarative')
+makedepends=('git') # 'bzr', 'git', 'mercurial' or 'subversion'
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=()
+options=()
+install=
+source=('git://github.com/communi/libcommuni')
+noextract=()
 md5sums=('SKIP')
 
 pkgver() {
-	cd libcommuni
-	echo "$(git log -1 --format="%cd" --date=short | tr -d '-').$(git log -1 --format="%h")"
+	cd "$srcdir/${pkgname%-git}"
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-	cd libcommuni
+	cd "$srcdir/${pkgname%-git}"
+        qmake
+        make
+}
 
-	./configure \
-		-prefix /usr \
-		-headerdir /usr/include \
-		-featuredir /usr/lib/qt/mkspecs/features
-	make
+check() {
+	cd "$srcdir/${pkgname%-git}"
+	make -k check
 }
 
 package() {
-	cd libcommuni
-	make INSTALL_ROOT="${pkgdir}" install
+	cd "$srcdir/${pkgname%-git}"
+	make INSTALL_ROOT="$pkgdir/" install
+        mkdir -p "$pkgdir/usr/share/licenses/${pkgname}/"
+        install -m644 LICENSE \
+                "$pkgdir/usr/share/licenses/${pkgname}/"
 }
