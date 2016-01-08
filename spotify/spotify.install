@@ -1,13 +1,11 @@
 post_install() {
-    cd /usr/share/spotify/spotify-client
-    ./register.sh
+	update-desktop-database -q
 }
 
 post_upgrade() {
 	post_install
 }
 
-pre_remove() {
-    cd /usr/share/spotify/spotify-client
-    ./unregister.sh
+post_remove() {
+	post_install
 }

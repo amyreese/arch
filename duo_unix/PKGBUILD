@@ -1,7 +1,8 @@
-# Maintainer: Josh <moc tod liamg ta suoecal>
+# Maintainer: Mark Crichton <crichton at gmail dot com>
+# Contributor: Josh <moc tod liamg ta suoecal>
 
 pkgname=duo_unix
-pkgver=1.9.14
+pkgver=1.9.17
 pkgrel=1
 pkgdesc='Login utility and PAM module for Duo Security two-factor authentication'
 arch=('i686' 'x86_64')
@@ -10,10 +11,10 @@ license=('custom:GPL2')
 depends=('openssl' 'pam')
 install="${pkgname}.install"
 backup=('etc/duo/login_duo.conf' 'etc/duo/pam_duo.conf')
-source=("https://dl.duosecurity.com/${pkgname}-latest.tar.gz")
+source=("https://dl.duosecurity.com/duo_unix-${pkgver}.tar.gz")
 
 # https://www.duosecurity.com/docs/checksums#duounix
-sha1sums=('7c1331099a3c284f91783eb88ef48eefe5bae528')
+sha1sums=('6aba1fd91cef87ddf97a5f0b6cc5fddc2db35a5b')
 
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
@@ -39,3 +40,4 @@ package() {
   install -d -m755 "${pkgdir}/usr/share/licenses/${pkgname}"
   ln -s "/usr/share/doc/${pkgname}/LICENSE" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
+
