@@ -124,6 +124,9 @@ class ChrootBuild(object):
             sudo('cp', script, self.pkgroot)
             self.rbt('sh', join(self.pkgpath, script))
 
+        log.debug('Adding trusted GPG keys')
+        self.rsh('su - arch -c "gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53"')
+
     def clean(self):
         self.unmount()
 
@@ -165,7 +168,8 @@ class ChrootBuild(object):
         sudo('chown -R 1000:1000', pkgroot)
         self.rsh('su - arch -c "bash -l {0}"'.format(runpath))
 
-        pkgfile = bt('find', pkgroot, '-maxdepth 1 -iregex', PKGREGEX.format(package))
+        iregex = PKGREGEX.format(package)
+        pkgfile = bt('find', pkgroot, '-maxdepth 1 -iregex', iregex)
         log.debug('Built package file "%s"', pkgfile)
 
         return pkgfile
