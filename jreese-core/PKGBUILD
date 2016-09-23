@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=52
+pkgrel=53
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -17,7 +17,6 @@ depends=(
   alsa-utils
   archiso
   aria2
-  burp
   ca-certificates
   cdrkit
   cmake
