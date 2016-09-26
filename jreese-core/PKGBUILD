@@ -2,7 +2,7 @@
 # Maintainer: John Reese <john@noswap.com>
 pkgname=jreese-core
 pkgver=1.0
-pkgrel=53
+pkgrel=54
 epoch=0
 pkgdesc="A set of core packages for all installations."
 arch=('any')
@@ -19,9 +19,11 @@ depends=(
   aria2
   ca-certificates
   cdrkit
+  certbot
   cmake
   corkscrew
   cower
+  cronie
   ctags
   curl
   devtools
@@ -82,10 +84,12 @@ depends=(
   rsync
   screen
   sl
+  speedtest-cli
   start-stop-daemon
   subversion
   sudo
   swig
+  syslog-ng
   tarsnap
   tmux
   transmission-cli
