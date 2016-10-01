@@ -36,7 +36,7 @@ BASE = os.getcwd()
 ARCHROOT = join(BASE, '.archroot')
 ARCHROOT_LOCK = join(BASE, '.archroot.lock')
 LOCALREPO = join(BASE, '.repo/')
-REMOTEREPO = 'liara:/home/jreese/pub/arch/'
+REMOTEREPO = 'kirby:/home/jreese/pub/arch/'
 DATABASE = 'noswap.db.tar.xz'
 USERGROUP = 'jreese:jreese'
 
