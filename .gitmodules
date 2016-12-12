@@ -1,6 +1,3 @@
-[submodule "plexconnect-git"]
-	path = plexconnect-git
-	url = ssh://aur@aur4.archlinux.org/plexconnect-git.git
 [submodule "dotlink"]
 	path = dotlink
 	url = ssh://aur@aur4.archlinux.org/dotlink.git
