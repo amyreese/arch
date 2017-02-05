@@ -124,8 +124,8 @@ class ChrootBuild(object):
             sudo('cp', script, self.pkgroot)
             self.rbt('sh', join(self.pkgpath, script))
 
-        log.debug('Adding trusted GPG keys')
-        self.rsh('su - arch -c "gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53"')
+        #log.debug('Adding trusted GPG keys')
+        #self.rsh('su - arch -c "gpg --recv-keys --keyserver hkp://pgp.mit.edu 1EB2638FF56C0C53"')
 
     def clean(self):
         self.unmount()
