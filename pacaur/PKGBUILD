@@ -1,42 +1,17 @@
-pkgname=pacaur
-pkgver=4.7.8
+pkgname='pacaur'
+pkgver=4.8.6
 pkgrel=1
-pkgdesc="An AUR helper that minimizes user interaction"
+pkgdesc='An AUR helper that minimizes user interaction'
 arch=('any')
-url="https://github.com/rmarquis/pacaur"
+url="https://github.com/E5ten/${pkgname}"
 license=('ISC')
-depends=('cower' 'expac' 'sudo' 'git')
-makedepends=('perl')
-backup=('etc/xdg/pacaur/config')
-source=("https://github.com/rmarquis/$pkgname/archive/$pkgver.tar.gz")
-md5sums=('6f725f0f17cae3aaa08b654746c627d4')
-
-build() {
-    cd "$pkgname-$pkgver"
-    pod2man --utf8 --section=8 --center="Pacaur Manual" --name="PACAUR"\
-        --release="$pkgname $pkgver" ./README.pod > ./pacaur.8
-}
+depends=('auracle-git' 'expac' 'sudo' 'git' 'jq')
+makedepends=('perl' 'git')
+backup=("etc/xdg/${pkgname}/config")
+source=("git+${url}#tag=${pkgver}")
+sha256sums=('SKIP')
 
 package() {
-    cd "$pkgname-$pkgver"
-
-    mkdir -p "$pkgdir/etc/xdg/pacaur"
-    install -D -m644 ./config "$pkgdir/etc/xdg/pacaur/config"
-    mkdir -p "$pkgdir/usr/bin"
-    install -D -m755 ./pacaur "$pkgdir/usr/bin/$pkgname"
-    mkdir -p "$pkgdir/usr/share/bash-completion/completions"
-    install -D -m644 ./bash.completion\
-        "$pkgdir/usr/share/bash-completion/completions/$pkgname"
-    mkdir -p "$pkgdir/usr/share/zsh/site-functions"
-    install -D -m644 ./zsh.completion\
-        "$pkgdir/usr/share/zsh/site-functions/_pacaur"
-    mkdir -p "$pkgdir/usr/share/man/man8"
-    install -D -m644 ./pacaur.8 "$pkgdir/usr/share/man/man8/pacaur.8"
-    mkdir -p "$pkgdir/usr/share/licenses/pacaur"
-    install -D -m644 ./LICENSE "$pkgdir/usr/share/licenses/pacaur/LICENSE"
-    for i in {ca,da,de,es,fi,fr,hu,it,ja,nb,nl,pl,pt,ru,sk,sl,sr,sr@latin,tr,zh_CN}; do
-        mkdir -p "$pkgdir/usr/share/locale/$i/LC_MESSAGES/"
-        msgfmt ./po/$i.po -o "$pkgdir/usr/share/locale/$i/LC_MESSAGES/pacaur.mo"
-    done
+    make -C "${srcdir}/${pkgname}" DESTDIR="${pkgdir}" PREFIX='/usr' install
 }
 

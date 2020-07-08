@@ -1,29 +1,29 @@
 # Maintainer: Antoine Lubineau <antoine@lubignon.info>
+# Maintainer: Luca Weiss <luca (at) z3ntu (dot) xyz>
+# Contributor: Severin Glöckner <severin.gloeckner@imn.htwk-leipzig.de>
 
 pkgname=gti
-pkgver=1.3.0
-_commit="530a7ff"
+pkgver=1.7.0
 pkgrel=1
 pkgdesc="A silly git launcher"
-arch=('i686' 'x86_64')
-url="http://r-wos.org/hacks/gti"
+arch=('x86_64')
+url="https://r-wos.org/hacks/gti"
 license=('custom')
-source=("https://github.com/rwos/gti/tarball/v$pkgver"
-        'LICENSE')
-md5sums=('0d8e4206fda5a343af7a1c530e7bfc73'
-         '28c2baebd9f1dbe5498bae7ca90c005f')
+source=("https://github.com/rwos/gti/archive/v$pkgver.tar.gz")
+sha512sums=('7a176a36dfa73f2da1ba624bc7a721445112d7c87cf3442ba38e051c32d4d983f462f61feb797db25c575af4fde0daa402e2ebc78df81336b09c2904cdb0ca8a')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+  sed '/Copyright/,$! d' README.md > "$srcdir"/LICENSE
+}
 
 build() {
-  cd "$srcdir/rwos-gti-${_commit}"
+  cd "$srcdir/$pkgname-$pkgver"
   make
 }
 
 package() {
-  cd "$srcdir"
-  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-
-  cd "rwos-gti-${_commit}"
-  install -Dm755 gti "$pkgdir/usr/bin/gti"
+  cd "$srcdir/$pkgname-$pkgver"
+  make DESTDIR="$pkgdir" install
+  install -Dm644 "$srcdir"/LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
 }
-
-# vim:set ts=2 sw=2 et:

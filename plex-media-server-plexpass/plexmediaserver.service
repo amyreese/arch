@@ -3,8 +3,10 @@ Description=Plex Media Server
 After=network.target
 
 [Service]
+# In this file, set LANG and LC_ALL to en_US.UTF-8 on non-English systems to avoid mystery crashes.
 EnvironmentFile=/etc/conf.d/plexmediaserver
-ExecStart=/opt/plexmediaserver/Plex\x20Media\x20Server
+
+ExecStart=/usr/lib/plexmediaserver/Plex\x20Media\x20Server
 Type=simple
 User=plex
 Group=plex
@@ -12,7 +14,6 @@ Restart=on-failure
 RestartSec=5
 StartLimitInterval=60s
 StartLimitBurst=3
-StandardOutput=null
 
 [Install]
 WantedBy=multi-user.target

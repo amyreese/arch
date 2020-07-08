@@ -1,16 +1,15 @@
-# Maintainer: Alex Whitt <alex.joseph.whitt@gmail.com>
-
+# Maintainer: Elaina Martineau <elainamartineau@gmail.com>
 pkgname=ttf-octicons
-pkgver=4.3.0
+pkgver=4.4.0
 pkgrel=1
 pkgdesc="A scalable set of icons handcrafted with <3 by GitHub"
 arch=('any')
 license=('MIT')
-url="http://octicons.github.com/"
+url="https://octicons.github.com/"
 makedepends=('git')
 depends=('fontconfig' 'xorg-font-utils')
 source=("https://github.com/primer/octicons/archive/v${pkgver}.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('2bbf1f6798a03acaabe1f379f1570c333c7302c9eef84129388474600999855f')
 install=$pkgname.install
 
 package() {

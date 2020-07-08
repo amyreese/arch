@@ -1,11 +1,11 @@
-post_install() {
-  systemd-sysusers plex.conf # Create plex user
-
-  if [[ -d /var/lib/plex ]]; then
-    # The directory may have been made by another package
-    chown -R plex:plex /var/lib/plex
-  else
-    install -dm 750 -o plex -g plex /var/lib/plex
+post_upgrade() {
+  # The plex user's home directory needs to change too.
+  if [[ "$( getent passwd plex | cut -d: -f6 )" != "/usr/lib/plexmediaserver" ]]; then
+    usermod -d /usr/lib/plexmediaserver plex
+    if [[ $? -ne 0 ]]; then
+      echo "Could not change plex users home directory."
+      echo "Run: sudo systemctl stop plexmediaserver ; sudo usermod -d /usr/lib/plexmediaserver plex ; sudo systemctl start plexmediaserver"
+    fi
   fi
 }
 

@@ -1,6 +1,6 @@
 # Maintainer: Jonne Haß <me@jhass.eu>
 pkgname=hub-git
-pkgver=v2.2.0.preview1.r547.g1150e67
+pkgver=v2.7.0.r31.gddf0d825
 pkgrel=1
 pkgdesc="cli interface for Github"
 url="https://hub.github.com"
@@ -9,29 +9,37 @@ license=('MIT')
 conflicts=('hub')
 provides=('hub')
 depends=('git')
-makedepends=('go' 'groff' 'ruby-bundler')
+makedepends=('go')
 source=("git+https://github.com/github/hub.git")
 sha256sums=('SKIP')
 
+prepare() {
+  cd "${pkgname/-git/}"
+  mkdir -p "$srcdir/src/github.com/github/hub"
+  cp -r . "$srcdir/src/github.com/github/hub"
+  rm -rf "$srcdir/src/github.com/github/hub/.git"
+  sed -i 's@.man-pages.stamp: bin/ronn@.man-pages.stamp:@;s@bin/ronn@ronn@' "$srcdir/src/github.com/github/hub/Makefile" 
+}
+
 pkgver() {
   cd "${pkgname/-git/}"
-  git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+  git describe --tags --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
-  cd "$srcdir/${pkgname/-git/}"
+  cd "$srcdir/src/github.com/github/hub"
 
-  make all man-pages
+  export GOPATH="$srcdir"
+  make -j1
+  make -j1 man-pages
 }
 
 package() {
-  cd "$srcdir/${pkgname/-git/}"
+  cd "$srcdir/src/github.com/github/hub"
 
-  install -Dm755 bin/hub "$pkgdir/usr/bin/hub"
+  make PREFIX="$pkgdir/usr" install
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/${pkgname/-git/}/LICENSE"
   install -Dm644 etc/hub.bash_completion.sh "$pkgdir/usr/share/bash-completion/completions/hub"
   install -Dm644 etc/hub.zsh_completion "$pkgdir/usr/share/zsh/site-functions/_hub"
-  for manpage in share/man/man1/hub.1 share/man/man1/hub-*.1; do
-    install -Dm644 $manpage "$pkgdir/usr/share/man/man1/$(basename $manpage)"
-  done
+  install -Dm644 etc/hub.fish_completion "$pkgdir/usr/share/fish/vendor_completions.d/hub.fish"
 }

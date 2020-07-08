@@ -1,4 +1,5 @@
 # Maintainer: Donald Webster <fryfrog@gmail.com>
+# Maintainer: Shaun Bartlett <tixetsal@gmail.com>
 # Contributor: Mikael Eriksson <mikael_eriksson@miffe.org>
 # Contributor: Maxime Gauduin <alucryd@archlinux.org>
 # Contributor: Rob Sletten <rsletten@gmail.com>
@@ -11,51 +12,56 @@
 # Based on the plex-media-server package by Maxime Gauduin.
 
 pkgname=plex-media-server-plexpass
-pkgver=1.7.2.3878
-_pkgsum=8088811b8
+pkgver=1.19.5.3035
+_pkgsum=864bbcbb7
 pkgrel=1
-pkgdesc='Plex Media Server (PlexPass version)'
-arch=('armv7h' 'i686' 'x86_64')
+pkgdesc='The back-end media server component of Plex.'
+arch=('x86_64' 'armv7h' 'aarch64')
 url='https://plex.tv/'
 license=('custom')
-options=('!emptydirs')
+options=('!emptydirs' '!strip' 'staticlibs')
 provides=('plex-media-server')
-conflicts=('plex-media-server' 'plex-media-server-plexpass-dvr' 'plex-media-server-plexpass-hwenc')
+conflicts=('plex-media-server')
 backup=('etc/conf.d/plexmediaserver')
 install='plex-media-server.install'
 source=('plexmediaserver.conf.d'
         'plexmediaserver.service'
+        'plexmediaserver.hook'
         'plex.sysusers'
+        'plex.tmpfiles'
         'terms.txt')
-source_armv7h=("https://downloads.plex.tv/plex-media-server/${pkgver}-${_pkgsum}/PlexMediaServer-${pkgver}-${_pkgsum}-arm7.spk")
-source_i686=("https://downloads.plex.tv/plex-media-server/${pkgver}-${_pkgsum}/plexmediaserver-${pkgver}-${_pkgsum}.i386.rpm")
-source_x86_64=("https://downloads.plex.tv/plex-media-server/${pkgver}-${_pkgsum}/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm")
 
-sha256sums=('7ab1ee8da9012d257b7f473fb79d76b201ca592cbe3722f977a43b58bfad180e'
-            '9da45cc3951ae03086ec663e6273c2de0183495fd15dc34ddd9aa100346d4d3a'
-            'ebf153d5789f9d24cb98ae607d227286e1da6ce54e149c8be4f47e08ee729573'
+source_aarch64=("https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/debian/plexmediaserver_${pkgver}-${_pkgsum}_arm64.deb")
+source_armv7h=("https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/debian/plexmediaserver_${pkgver}-${_pkgsum}_armhf.deb")
+source_x86_64=("https://downloads.plex.tv/plex-media-server-new/${pkgver}-${_pkgsum}/redhat/plexmediaserver-${pkgver}-${_pkgsum}.x86_64.rpm")
+
+sha256sums=('16c4d1c2d5c40dff1e57a24b90fcb4fd6a32702bce569de4a3f23128920d3c67'
+            'b2c5105e4d31d1810d4d3b1d837008ef6223bf69a987352786f294274cb9a404'
+            '204600b223eb87b7ee8d4b01dd168996498828bbdb4e4a795f36f8ab4ae205fb'
+            'c597bee0bcbb59ed791651555a904e5f7e9d2e82f6c6986b6352e5fc38e5b557'
+            'b7ff6525a3c7a8be885edc85bb523095f8e25ddb38873127e2a4e97b28f2c7ad'
             '7bb97271eb2dc5d1dcb95f9763f505970d234df17f1b8d79b467b9020257915a')
-
-sha256sums_armv7h=('c9fa8e48266910d9bccb5ceed2beeeec82456292ac37d4cd359c6df87b2811a3')
-sha256sums_i686=('b9a286482e20508b61c36e66d2a35060a4a163f9ec792ecfd231997836cae656')
-sha256sums_x86_64=('7ec50bb67f1a54671fe41a8359f7bbb61124c1564b47b79090b9f6fa7d4a3d9a')
+sha256sums_x86_64=('a98ab35c696721d0efa6cf93511f821342c5afd90982ddad59ebc1ae549e1240')
+sha256sums_armv7h=('2a64f95ba3a45d6d47550147483f08433f463a7f35486d6c127c263a8a8542fe')
+sha256sums_aarch64=('aedcce916606211a5c6d2ecd0d9f20d5dbb7d86afd799ed40227dc76c1b3d693')
 
 prepare() {
-  if [[ $CARCH =~ arm* ]]; then
-    mkdir -p usr/lib/plexmediaserver
-    tar -xf package.tgz -C usr/lib/plexmediaserver/
+  if [[ $CARCH = armv7h ]] || [[ $CARCH = aarch64 ]]; then
+    bsdtar -xf data.tar.xz
   fi
 }
 
 package() {
-  install -dm 755 "${pkgdir}"/{opt,etc/conf.d,usr/lib/systemd/system}
-  cp -dr --no-preserve='ownership' usr/lib/plexmediaserver "${pkgdir}"/opt/
-  install -m 644 plexmediaserver.service "${pkgdir}"/usr/lib/systemd/system/
-  install -m 644 plexmediaserver.conf.d "${pkgdir}"/etc/conf.d/plexmediaserver
-  install -Dm644 "$srcdir/plex.sysusers" "$pkgdir/usr/lib/sysusers.d/plex.conf"
+  install -d -m 755 "${pkgdir}/usr/lib/plexmediaserver"
+  cp -dr --no-preserve='ownership' "${srcdir}/usr/lib/plexmediaserver" "${pkgdir}/usr/lib/"
 
-  install -dm 755 "${pkgdir}"/usr/share/licenses/${pkgname}
-  install -m 644 terms.txt "${pkgdir}"/usr/share/licenses/${pkgname}/
+  install -D -m 644 "${srcdir}/plexmediaserver.conf.d" "${pkgdir}/etc/conf.d/plexmediaserver"
+  install -D -m 644 "${srcdir}/plexmediaserver.service" "${pkgdir}/usr/lib/systemd/system/plexmediaserver.service"
+  install -D -m 644 "${srcdir}/plex.sysusers" "${pkgdir}/usr/lib/sysusers.d/plex.conf"
+  install -D -m 644 "${srcdir}/plex.tmpfiles" "${pkgdir}/usr/lib/tmpfiles.d/plex.conf"
+
+  install -D -m 644 "${srcdir}/terms.txt" "${pkgdir}/usr/share/licenses/${pkgname}/terms.txt"
+  install -D -m 644 "${srcdir}/plexmediaserver.hook" "${pkgdir}/usr/share/doc/${pkgname}/plexmediaserver.hook"
 }
 
 # vim: ts=2 sw=2 et:
